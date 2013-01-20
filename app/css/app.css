@@ -1,0 +1,68 @@
+/* app css stylesheet */
+
+body {
+  padding-top: 20px;
+	background-color: #404853;
+
+  font-size: smaller;
+  font-family: Courier New, Courier;
+  color: white;
+}
+
+h1 {
+  border-bottom: 1px solid gray;
+}
+
+/** Mark Table **/
+
+.marktable {
+  border-collapse: collapse;
+}
+
+.marktable td, .marktable th {
+	border: 1px solid white;
+	border-right: none;
+	font-weight: normal;
+	empty-cells: show;
+	width: 1.5em;
+	min-width: 1.5em;
+}
+.marktable th {
+    border-right: 1px solid white;
+}
+
+.markcell, .summarycell { 
+	vertical-align: middle; 
+	text-align: center; 
+}
+.markcell:nth-child(even), .summarycell:nth-child(even), .hourcell:nth-child(even) {
+    border-left: none;
+	border-right: 1px solid white;
+}
+.markcell { 
+	cursor: pointer;
+}
+.summarycell { 
+	color: #40f000;
+}
+.overflow { 
+	color: #f00000;
+}
+
+.hourFloat {
+    display: block;
+    width: 1em;
+}
+
+.time-9h, .time-12 {
+    background: #c0c000;
+	background: -moz-linear-gradient(left, #c0c000, #666);
+	background: -ms-linear-gradient(left, #c0c000, #666);
+	background: -o-linear-gradient(left, #c0c000, #666);
+    background: -webkit-linear-gradient(left, #c0c000, #666);
+    background: linear-gradient(left, #c0c000, #666);
+}
+
+.time-9, .time-9h, .time-10, .time-10h {
+	background-color: #777;
+}

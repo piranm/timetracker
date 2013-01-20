@@ -1,0 +1,45 @@
+<div ng-controller="DayEditor">
+	<p>
+		<label>Day comment: <input type="text" ng-model="day.comment" /></label>
+	</p>
+	<table class="marktable">
+		<thead>
+			<tr	>
+				<th colspan="2">{{dayOfWeek}}</th>
+				<th ng-click="addBefore()">[&lt;]</th>
+				<td 
+					ng-repeat="i in showRange" 
+					ng-class="collStyle[i]"
+					class="hourcell"
+						><span class="hourFloat">{{i/2 | hour}}</span></td>
+				<th ng-click="addAfter()">[&gt;]</td>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr ng-repeat="t in day.tasks">
+				<th colspan="2"><span ng-click="removeTask($index)">[X]</span><input type="text" ng-model="t.task" /></th>
+				<th>{{t.total}} hrs</th>
+				<td 
+					ng-repeat="i in showRange" 
+					ng-click="changeMark(t,i,$event)" 
+					ng-class="collStyle[i]"
+					class="markcell"
+						>{{t.marks[i] | mark}}</td>
+			</tr>
+		</tbody>
+		
+		<tfoot>
+			<tr	>
+				<th ng-click="addTask()">[+]</th>
+				<th colspan="2">Summary:</th>
+				<td 
+					ng-repeat="i in showRange" 
+					ng-class="collStyle[i]"
+					class="summarycell"
+						><span ng-class="summary[i] | choice:'>3|overflow'">{{summary[i] | mark}}</td>
+				<th></th>
+			</tr>
+		</tfoot>
+	</table>
+</div>
