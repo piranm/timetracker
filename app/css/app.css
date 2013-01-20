@@ -35,11 +35,11 @@ h1 {
 	vertical-align: middle; 
 	text-align: center; 
 }
-.markcell:nth-child(even), .summarycell:nth-child(even), .hourcell:nth-child(even) {
+.marktable .even {
     border-left: none;
 	border-right: 1px solid white;
 }
-.markcell { 
+.markcell, .button { 
 	cursor: pointer;
 }
 .summarycell { 
