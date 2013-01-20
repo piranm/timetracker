@@ -3,29 +3,35 @@
 /* Filters */
 angular.module('trackFilters', []).
   filter('hour', function() {
-    return function(input) {
-      var fix = input.toFixed(0),
-          out = fix + ':00';
+    return function(input, onlyfull) {
+      var fix = Math.floor(input),
+          out;
 			if (input != fix) {
-				return '';
-			}
+        if (onlyfull) {
+				  return '';
+        }
+        out = fix + ':30';
+			} else {
+        out = fix + ':00';
+      }
+
 			if (out.length < 5) {
 				out = '0' + out;
 			}
       return out;
-    }
+    };
   }
 ).filter('mark',function() {
-		var marks = ['','\u25D0','\u25C9']
-		  , maxMarks = marks.length-1;
+		var marks = ['','\u25D0','\u25C9'],
+        maxMarks = marks.length-1;
 		return function(input) {
 			return marks[ Math.min(input,maxMarks) ];
-		}
+		};
 	}
 ).filter('choice',function() {
 		return function(input,mask) {
-			var steps = mask.split('|')
-				, out = '';
+			var steps = mask.split('|'),
+				out = '';
 			if (steps.length % 2 == 1) {
 				out = steps.pop();
 			}
@@ -46,6 +52,6 @@ angular.module('trackFilters', []).
 				}
 			}
 			return out;
-		}
+		};
 	}
 );

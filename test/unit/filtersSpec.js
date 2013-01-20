@@ -7,10 +7,18 @@ describe('filter', function() {
 	beforeEach(module('trackFilters'));
 	
 	describe('hour', function() {
-		it('should format hours correctly', inject(function(hourFilter) {
+		it('should format hours', inject(function(hourFilter) {
 			expect(hourFilter(0)).toBe('00:00');
 			expect(hourFilter(5)).toBe('05:00');
 			expect(hourFilter(10)).toBe('10:00');
+			expect(hourFilter(14.5)).toBe('14:30');
+		}));
+
+		it('should format only full hours', inject(function(hourFilter) {
+			expect(hourFilter(0, true)).toBe('00:00');
+			expect(hourFilter(5, true)).toBe('05:00');
+			expect(hourFilter(10, true)).toBe('10:00');
+			expect(hourFilter(14.5, true)).toBe('');
 		}));
 	} );
 	

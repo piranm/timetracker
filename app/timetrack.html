@@ -7,25 +7,35 @@
 	<script src="lib/angular/angular.js"></script>
 	<script src="js/filters.js"></script>
 	<script src="js/app.js"></script>
-	<script src="js/controllers.js"></script>
+	<script src="js/appControllers.js"></script>
+	<script src="js/dayControllers.js"></script>
+	<script src="js/utils.js"></script>
+	<script src="js/settingsControllers.js"></script>
 </head>
-<body>
+<body ng-controller="AppCtrl">
 
-  	<div ng-controller="DayCtrl">
+	<div id="workHoursContainer">
+
 		<p>
-			[-] 16-Nov-2013 - 8.5&nbsp;hrs - Go Live meetings
+			[+] 16-Nov-2013 - 8.5&nbsp;hrs - Go Live meetings
 		</p>
-		<p>
-			<span ng-click="open = !open" class="button">[{{open | choice:'true|-|+'}}]</span> 
-			{{date}} - {{day.total}}&nbsp;hrs 
-			{{day.comment | choice:'||-'}} {{day.comment}}
-		</p>
-		<div ng-switch on="open" >
-			<div ng-switch-when="true">
-				<div ng-include="'partials/day-editor.html'" autoscroll="true" />
-		  	</div>
+
+	  	<div ng-controller="DayCtrl">
+			<p>
+				<span ng-click="open = !open" class="button">[{{open | choice:'true|-|+'}}]</span> 
+				{{date}} - {{day.total}}&nbsp;hrs 
+				{{day.comment | choice:'||-'}} {{day.comment}}
+			</p>
+			<div ng-switch on="open" >
+				<div ng-switch-when="true">
+					<div ng-include="'partials/day-editor.html'" autoscroll="true" />
+			  	</div>
+			</div>
 		</div>
 	</div>
+	
+
+	<div ng-include="'partials/settings.html'" />
 
 </body>
 </html>

@@ -1,8 +1,10 @@
 'use strict';
 
-/* Controllers */
+/* Main Controllers */
 
-function DayCtrl($scope) {
+angular.module(
+    'DayControllers', ['Utils']
+).controller('DayCtrl', function DayCtrl($scope) {
     $scope.date = '17-Jan-2013';
     $scope.open = true;
     $scope.day = {
@@ -20,8 +22,7 @@ function DayCtrl($scope) {
         ]
     };
 }
-
-function DayEditor($scope) {
+).controller('DayEditorCtrl', function DayEditorCtrl($scope, Utils) {
     $scope.dayOfWeek = 'Thursday';
     $scope.hourStart = 8;
     $scope.showRange = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39];
@@ -79,7 +80,7 @@ function DayEditor($scope) {
     $scope.calcSummary = function () {
         $scope.summary = [];
         var dayTot = 0;
-        for (var i = 0 ; i < 24*2 ; i++) {
+        Utils.forRange(0, 24*2-1, function(i) {
           var hourTot = 0;
           angular.forEach($scope.day.tasks, function(t) {
                     hourTot += t.marks[i];
@@ -87,14 +88,14 @@ function DayEditor($scope) {
             );
             $scope.summary.push(hourTot);
             dayTot += hourTot;
-        }
+        });
         $scope.day.total = dayTot/4;
     };
     $scope.calcSummary();
     
     $scope.changeMark = function(task,idx,$event) {
         var oldV = task.marks[idx],
-            newV = (oldV==0) ? 2 : oldV-1;
+            newV = (oldV===0) ? 2 : oldV-1;
         task.marks[idx] = newV;
         $scope.summary[idx] += newV - oldV;
         $scope.day.total += (newV - oldV)/4;
@@ -127,10 +128,11 @@ function DayEditor($scope) {
     
     $scope.addTask = function() {
         var newMarks = [ ],
-          newTask = { task: '', marks: newMarks };
-        for (var i = 0 ; i < 24*2 ; i++) { 
+            newTask = { task: '', marks: newMarks };
+        for (var i = 0 ; i < 24*2 ; i++) {
             newMarks.push(0);
         }
         $scope.day.tasks.push( newTask );
     };
 }
+);

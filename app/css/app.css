@@ -1,12 +1,12 @@
 /* app css stylesheet */
 
 body {
-  padding-top: 20px;
+	padding-top: 20px;
 	background-color: #404853;
 
-  font-size: smaller;
-  font-family: Courier New, Courier;
-  color: white;
+	font-size: smaller;
+	font-family: Courier New, Courier;
+	color: white;
 }
 
 h1 {
@@ -54,7 +54,7 @@ h1 {
     width: 1em;
 }
 
-.time-9h, .time-12 {
+.time-12 {
     background: #c0c000;
 	background: -moz-linear-gradient(left, #c0c000, #666);
 	background: -ms-linear-gradient(left, #c0c000, #666);
@@ -63,6 +63,54 @@ h1 {
     background: linear-gradient(left, #c0c000, #666);
 }
 
-.time-9, .time-9h, .time-10, .time-10h {
+.work-0 .time-0, 
+.work-0h .time-0h,
+.work-1 .time-1, 
+.work-1h .time-1h,
+.work-2 .time-2, 
+.work-2h .time-2h,
+.work-3 .time-3, 
+.work-3h .time-3h,
+.work-4 .time-4, 
+.work-4h .time-4h,
+.work-5 .time-5, 
+.work-5h .time-5h,
+.work-6 .time-6, 
+.work-6h .time-6h,
+.work-7 .time-7, 
+.work-7h .time-7h,
+.work-8 .time-8, 
+.work-8h .time-8h,
+.work-9 .time-9, 
+.work-9h .time-9h,
+.work-10 .time-10, 
+.work-10h .time-10h,
+.work-11 .time-11, 
+.work-11h .time-11h,
+.work-12 .time-12, 
+.work-12h .time-12h,
+.work-13 .time-13, 
+.work-13h .time-13h,
+.work-14 .time-14, 
+.work-14h .time-14h,
+.work-15 .time-15, 
+.work-15h .time-15h,
+.work-16 .time-16, 
+.work-16h .time-16h,
+.work-17 .time-17, 
+.work-17h .time-17h,
+.work-18 .time-18, 
+.work-18h .time-18h,
+.work-19 .time-19, 
+.work-19h .time-19h,
+.work-20 .time-20, 
+.work-20h .time-20h,
+.work-21 .time-21,
+.work-21h .time-21h,
+.work-22 .time-22, 
+.work-22h .time-22h,
+.work-23 .time-23, 
+.work-23h .time-23h
+ {
 	background-color: #777;
 }
