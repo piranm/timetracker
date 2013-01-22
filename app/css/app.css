@@ -13,6 +13,140 @@ h1 {
   border-bottom: 1px solid gray;
 }
 
+/** Top Nav **/
+
+.navbar-fixed-top, .navbar-fixed-bottom{
+	position:fixed;
+	right:0;
+	left:0;
+	z-index:1030;
+	margin-bottom:0;
+}
+.navbar-fixed-top .navbar-inner,.navbar-fixed-bottom .navbar-inner{
+	padding-left:0;
+	padding-right:0;
+	-webkit-border-radius:0;
+	-moz-border-radius:0;
+	border-radius:0;
+}
+.navbar-fixed-top .container,.navbar-fixed-bottom .container {
+	width:940px;
+}
+.navbar-fixed-top { 
+    top: 0;
+    border-bottom: 1px solid x444;
+    padding: 0.5em;
+    background: #999;
+}
+.navbar-fixed-bottom{ bottom: 0; }
+
+.navbar-fixed-top span {
+    font-size: x-large;
+    padding-left: 1em;
+    padding-top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-decoration: underline;
+}
+.navbar-fixed-top .optButtons {
+    float: right;
+    padding-right: 3em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+.navbar-fixed-top .optButtons ul {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 1px;
+    list-style: none;
+}
+
+.navbar-fixed-top li {
+    display: inline;
+    border: 1px solid white;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+
+}
+
+.navbar-fixed-top li.selected {
+    border-bottom: 1px solid #777;
+    background-color: #777;
+	background: -moz-linear-gradient(left, #999, #777);
+	background: -ms-linear-gradient(left, #999, #777);
+	background: -o-linear-gradient(left, #999, #777);
+    background: -webkit-linear-gradient(top, #999, #777);
+    background: linear-gradient(left, #999, #777);
+}
+
+/** Dropdown box **/
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right:0;
+    z-index:2000;
+    display: block;
+    padding: 1em;
+    margin-top:-0.5em;
+    margin-bottom: 2em;
+    margin-left: 1em;
+    margin-right: 1em;
+    background-color: #777;
+    border: none;
+    -webkit-border-radius:0 0 5px 5px;
+    -moz-border-radius:0 0 5px 5px;
+    border-radius:0 0 5px 5px;
+    -webkit-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
+    *border-right-width:2px;
+    *border-bottom-width:2px;
+}
+.dropdown-menu.pull-right{right:0;left:auto;}
+
+
+/** Settings **/
+
+.settingsContainer {
+	margin: 2em;
+	padding: 1em;
+	background-color: #777;
+}
+.setting {
+	/*border: 1px solid white;*/
+	margin-bottom: 1.5em
+}
+.title {
+	font-size: x-large;
+	border-bottom: 1px solid white;
+}
+.entry {
+	float: left;
+	width: 40%;
+}
+.hint {
+	float: right;
+	width: 60%;
+/*	border: 1px solid blue; */
+}
+.clear {
+	clear: both;
+}
+p {
+	margin: 4px;
+}
+label {
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+}
+
 /** Mark Table **/
 
 .marktable {
@@ -53,6 +187,8 @@ h1 {
     display: block;
     width: 1em;
 }
+
+/* Time banding */
 
 .time-12 {
     background: #c0c000;
@@ -111,6 +247,6 @@ h1 {
 .work-22h .time-22h,
 .work-23 .time-23, 
 .work-23h .time-23h
- {
+{
 	background-color: #777;
 }
