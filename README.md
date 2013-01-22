@@ -21,6 +21,20 @@ In another terminal, run the tests:
 
     ./scripts/test.sh
 
+## References
+
+http://localhost:8000/app/timetrack.html
+
+http://localhost:8000/test/e2e/runner.html
+
+http://localhost:8000/README.md
+
+https://github.com/piranm/timetracker
+
+http://docs.angularjs.org/api
+
+http://docs.angularjs.org/tutorial
+
 # History
 
 Many years back I worked as part of the off-shore team on a project, where we were 12-hours different from the customer. Each day we'd arrive to work to a set of questions from the customer, which we'd answer before starting development. At the end of the week, we totted up the time spent on answering questions, development, meetings, etc and send a summary timesheet to the customer. All was good.
