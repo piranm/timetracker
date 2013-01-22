@@ -25,4 +25,13 @@ angular.module(
     };
     $scope.$watch('settings', $scope.changeSettings, angular.equals);
 
+}).controller('TopNavCtrl', function TopNavCtrl($scope) {
+    $scope.showInDropdown = '';
+    $scope.showDropdown = function(item) {
+        if (item === $scope.showInDropdown) {
+            $scope.showInDropdown = '';
+        } else {
+            $scope.showInDropdown = item;
+        }
+    };
 });

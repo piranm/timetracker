@@ -1,0 +1,19 @@
+<div class="navbar-fixed-top" ng-controller="TopNavCtrl">
+	<div class="optButtons">
+		<ul class="optButtons">
+			<li ng-class="showInDropdown | choice:'settings|selected|'" 
+			    ng-click="showDropdown('settings')">Settings</li>
+			<li ng-class="showInDropdown | choice:'export|selected|'" 
+			    ng-click="showDropdown('export')">Export</li>
+			<li ng-class="showInDropdown | choice:'help|selected|'"
+			    ng-click="showDropdown('help')">?</li>
+		</ul>
+		<div ng-switch on="showInDropdown"
+			 class="dropdown-menu" ng-class="showInDropdown | choice:'||open'" >
+			<div ng-switch-when="settings" ng-include="'partials/settings.html'" ></div>
+			<div ng-switch-when="export" ng-include="'partials/export.html'" ></div>
+			<div ng-switch-when="help" ng-include="'partials/help.html'" ></div>
+		</div>
+	</div>
+	<span>{{settings.name}}</span>
+</div>

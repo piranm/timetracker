@@ -71,7 +71,7 @@ h1 {
     padding-right: 1em;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-
+	cursor: pointer;
 }
 
 .navbar-fixed-top li.selected {
@@ -84,14 +84,21 @@ h1 {
     background: linear-gradient(left, #999, #777);
 }
 
+.main {
+    margin-top: 2em;
+}
+
 /** Dropdown box **/
 
+.dropdown-menu.open {
+	display: block;
+}
 .dropdown-menu {
     position: absolute;
     top: 100%;
     right:0;
     z-index:2000;
-    display: block;
+    display: none;
     padding: 1em;
     margin-top:-0.5em;
     margin-bottom: 2em;
@@ -108,7 +115,6 @@ h1 {
     *border-right-width:2px;
     *border-bottom-width:2px;
 }
-.dropdown-menu.pull-right{right:0;left:auto;}
 
 
 /** Settings **/

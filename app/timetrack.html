@@ -14,36 +14,29 @@
 </head>
 <body ng-controller="AppCtrl">
 
-	<div class="navbar-fixed-top">
-		<div class="optButtons">
-			<ul class="optButtons">
-				<li class="selected">Settings</li>
-				<li>Export</li>
-				<li>?</li>
-			</ul>
-			<div class="dropdown-menu">
-				<div ng-include="'partials/settings.html'" ></div>
-			</div>
-		</div>
-		<span>{{settings.name}}</span>
-	</div>
+	<div ng-include="'partials/top-nav.html'"></div>
 
-	<div id="workHoursContainer">
+	<div class="main">
+		<div id="workHoursContainer">
+			<div id ="currentTimeContainer">
 
-		<p>
-			[+] 16-Nov-2013 - 8.5&nbsp;hrs - Go Live meetings
-		</p>
+				<p>
+					[+] 16-Nov-2013 - 8.5&nbsp;hrs - Go Live meetings
+				</p>
 
-	  	<div ng-controller="DayCtrl">
-			<p>
-				<span ng-click="open = !open" class="button">[{{open | choice:'true|-|+'}}]</span> 
-				{{date}} - {{day.total}}&nbsp;hrs 
-				{{day.comment | choice:'||-'}} {{day.comment}}
-			</p>
-			<div ng-switch on="open" >
-				<div ng-switch-when="true">
-					<div ng-include="'partials/day-editor.html'" autoscroll="true" />
-			  	</div>
+			  	<div ng-controller="DayCtrl">
+					<p>
+						<span ng-click="open = !open" class="button">[{{open | choice:'true|-|+'}}]</span> 
+						{{date}} - {{day.total}}&nbsp;hrs 
+						{{day.comment | choice:'||-'}} {{day.comment}}
+					</p>
+					<div ng-switch on="open" >
+						<div ng-switch-when="true">
+							<div ng-include="'partials/day-editor.html'" autoscroll="true" />
+					  	</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
