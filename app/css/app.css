@@ -13,6 +13,13 @@ h1 {
   border-bottom: 1px solid gray;
 }
 
+/** Weeks **/
+.weekDays {
+    padding-left: 1em;
+}
+.dayEditor {
+    margin-left: -1em;
+}
 /** Top Nav **/
 
 .navbar-fixed-top, .navbar-fixed-bottom{
@@ -157,6 +164,7 @@ label {
 
 .marktable {
   border-collapse: collapse;
+  margin-bottom: 1em;
 }
 
 .marktable td, .marktable th {

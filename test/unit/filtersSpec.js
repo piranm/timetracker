@@ -1,4 +1,6 @@
 'use strict';
+/*global describe:false, beforeEach:false, it:false, expect:false */
+/*global module:false, inject:false */
 
 /* jasmine specs for filters go here */
 

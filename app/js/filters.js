@@ -1,4 +1,5 @@
 'use strict';
+/*global angular:false, document:false */
 
 /* Filters */
 angular.module('trackFilters', []).
@@ -8,7 +9,7 @@ angular.module('trackFilters', []).
           out;
 			if (input != fix) {
         if (onlyfull) {
-				  return '';
+          return '';
         }
         out = fix + ':30';
 			} else {
@@ -21,13 +22,18 @@ angular.module('trackFilters', []).
       return out;
     };
   }
+).filter('date',function() {
+    return function(input,fmt) {
+      return input.format(fmt);
+    };
+  }
 ).filter('mark',function() {
-		var marks = ['','\u25D0','\u25C9'],
+    var marks = ['','\u25D0','\u25C9'],
         maxMarks = marks.length-1;
-		return function(input) {
-			return marks[ Math.min(input,maxMarks) ];
-		};
-	}
+    return function(input) {
+      return marks[ Math.min(input,maxMarks) ];
+    };
+  }
 ).filter('choice',function() {
 		return function(input,mask) {
 			var steps = mask.split('|'),

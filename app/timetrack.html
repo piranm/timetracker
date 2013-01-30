@@ -20,20 +20,38 @@
 		<div id="workHoursContainer">
 			<div id ="currentTimeContainer">
 
-				<p>
-					[+] 16-Nov-2013 - 8.5&nbsp;hrs - Go Live meetings
+				<p class="button">
+					[&lt;&lt;] Previous Month
 				</p>
 
-			  	<div ng-controller="DayCtrl">
-					<p>
-						<span ng-click="open = !open" class="button">[{{open | choice:'true|-|+'}}]</span> 
-						{{date}} - {{day.total}}&nbsp;hrs 
-						{{day.comment | choice:'||-'}} {{day.comment}}
-					</p>
-					<div ng-switch on="open" >
-						<div ng-switch-when="true">
-							<div ng-include="'partials/day-editor.html'" autoscroll="true" />
-					  	</div>
+				<p class="button">
+					&nbsp;[&lt;] Previous Week 
+				</p>
+
+				<div ng-repeat="w in weeks">
+					<div class="weekContainer" ng-controller="WeekCtrl">
+
+						<p class="button">
+							Week 17 - 15-Nov to 20-Nov-2013
+						</p>
+
+						<div class="weekDays">
+
+							<div ng-repeat="d in days">
+							  	<div ng-controller="DayCtrl" ng-init="dayOpen=d.dayOpen; date=d.dayDate">
+									<p ng-click="dayOpen = !dayOpen" class="button">
+										[{{dayOpen | choice:'true|-|+'}}]
+										{{date | date:'Ddmy'}} - {{day.total}}&nbsp;hrs 
+										{{day.comment | choice:'||-'}} {{day.comment}}
+									</p>
+									<div ng-switch on="dayOpen" >
+										<div ng-switch-when="true">
+											<div ng-include="'partials/day-editor.html'" autoscroll="true"></div>
+									  	</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
