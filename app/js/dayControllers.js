@@ -1,6 +1,7 @@
 'use strict';
 
 /* Main Controllers */
+/*global angular:false */
 
 angular.module(
     'DayControllers', ['Utils']
@@ -22,10 +23,56 @@ angular.module(
         ]
     };
 }
+
 ).controller('DayEditorCtrl', function DayEditorCtrl($scope, Utils) {
     $scope.dayOfWeek = 'Thursday';
-    $scope.hourStart = 8;
-    $scope.showRange = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39];
+
+    function firstHourWorked(day) {
+        for (var h = 0 ; h < 24 ; h++) {
+            for (var t = 0; t < day.tasks.length; t++) {
+                if ( day.tasks[t].marks[h*2] !== 0 || day.tasks[t].marks[h*2+1] !== 0 ) {
+                    return h;
+                }
+
+            }
+        }
+        return 24;
+    }
+
+    function lastHourWorked(day) {
+        for (var h = 24-1 ; h >= 0 ; h--) {
+            for (var t = 0; t < day.tasks.length; t++) {
+                if ( day.tasks[t].marks[h*2] !== 0 || day.tasks[t].marks[h*2+1] !== 0 ) {
+                    return h;
+                }
+
+            }
+        }
+        return 0;
+    }
+
+    $scope.hourStart = Math.min($scope.settings.showStart, firstHourWorked($scope.day));
+    $scope.hourEnd   = Math.max($scope.settings.showEnd,   lastHourWorked($scope.day));
+
+
+    function makeShowRange() {
+        $scope.showRange = [];
+        for (var h = $scope.hourStart ; h <= $scope.hourEnd; h++) {
+            $scope.showRange.push(h*2, h*2+1);
+        }
+    }
+    makeShowRange();
+
+    $scope.addBefore = function() {
+        $scope.hourStart = Math.max(0,$scope.hourStart-1);
+        makeShowRange();
+    };
+
+    $scope.addAfter = function() {
+        $scope.hourEnd = Math.min(23,$scope.hourEnd+1);
+        makeShowRange();
+    };
+
     $scope.collStyle = [
         'time-0 ',
         'time-0h',
@@ -77,12 +124,12 @@ angular.module(
         'time-23h'
     ];
     
-    $scope.calcSummary = function () {
+    function calcSummary() {
         $scope.summary = [];
         var dayTot = 0;
         Utils.forRange(0, 24*2-1, function(i) {
-          var hourTot = 0;
-          angular.forEach($scope.day.tasks, function(t) {
+            var hourTot = 0;
+            angular.forEach($scope.day.tasks, function(t) {
                     hourTot += t.marks[i];
                 }
             );
@@ -90,10 +137,10 @@ angular.module(
             dayTot += hourTot;
         });
         $scope.day.total = dayTot/4;
-    };
-    $scope.calcSummary();
+    }
+    calcSummary();
     
-    $scope.changeMark = function(task,idx,$event) {
+    $scope.changeMark = function(task,idx) {
         var oldV = task.marks[idx],
             newV = (oldV===0) ? 2 : oldV-1;
         task.marks[idx] = newV;
@@ -101,29 +148,9 @@ angular.module(
         $scope.day.total += (newV - oldV)/4;
     };
 
-  $scope.addBefore = function() {
-        var newHour = $scope.hourRange[0]-1;
-        $scope.hourRange.unshift(newHour);
-        angular.forEach($scope.tasks, function(t) {
-                t.marks.splice(0,0,0,0); // add two zeros to beginning
-            }
-        );
-        $scope.calcSummary();
-    };
-
-    $scope.addAfter = function() {
-        var newHour = $scope.hourRange[$scope.hourRange.length - 1]+1;
-        $scope.hourRange.push(newHour);
-        angular.forEach($scope.tasks, function(t) {
-                t.marks.splice(t.marks.length,0,0,0); // add two zeros to the end
-            }
-        );
-        $scope.calcSummary();
-    };
-
     $scope.removeTask = function(idx) {
         $scope.day.tasks.splice(idx,1);
-        $scope.calcSummary();
+        calcSummary();
     };
     
     $scope.addTask = function() {
