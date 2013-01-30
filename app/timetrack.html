@@ -29,25 +29,27 @@
 				</p>
 
 				<div ng-repeat="w in weeks">
-					<div class="weekContainer" ng-controller="WeekCtrl">
+					<div class="weekContainer" ng-init="startOfWeek=w.start">
+						<div ng-controller="WeekCtrl">
 
-						<p class="button">
-							Week 17 - 15-Nov to 20-Nov-2013
-						</p>
+							<p class="button">
+								Week {{weekNumber}} - {{startOfWeek | date:'dm'}} to {{endOfWeek | date:'dmy'}}
+							</p>
 
-						<div class="weekDays">
+							<div class="weekDays">
 
-							<div ng-repeat="d in days">
-							  	<div ng-controller="DayCtrl" ng-init="dayOpen=d.dayOpen; date=d.dayDate">
-									<p ng-click="dayOpen = !dayOpen" class="button">
-										[{{dayOpen | choice:'true|-|+'}}]
-										{{date | date:'Ddmy'}} - {{day.total}}&nbsp;hrs 
-										{{day.comment | choice:'||-'}} {{day.comment}}
-									</p>
-									<div ng-switch on="dayOpen" >
-										<div ng-switch-when="true">
-											<div ng-include="'partials/day-editor.html'" autoscroll="true"></div>
-									  	</div>
+								<div ng-repeat="d in days">
+								  	<div ng-controller="DayCtrl" ng-init="dayOpen=d.dayOpen; date=d.dayDate">
+										<p ng-click="dayOpen = !dayOpen" class="button">
+											[{{dayOpen | choice:'true|-|+'}}]
+											{{date | date:'Ddmy'}} - {{day.total}}&nbsp;hrs 
+											{{day.comment | choice:'||-'}} {{day.comment}}
+										</p>
+										<div ng-switch on="dayOpen" >
+											<div ng-switch-when="true">
+												<div ng-include="'partials/day-editor.html'" autoscroll="true"></div>
+										  	</div>
+										</div>
 									</div>
 								</div>
 							</div>

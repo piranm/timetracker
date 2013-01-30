@@ -22,6 +22,9 @@ angular.module(
 				if (out !== '') {
 					out = out + ' ';
 				}
+				if (this.day < 10) {
+					out = out + '0';
+				}
 				out = out + this.day;
 			}
 			if (p === 'm') {
@@ -41,6 +44,30 @@ angular.module(
 	};
 	SimpleDate.prototype.dayOfWeek = function () {
 		return new Date(this.year,this.month-1,this.day).getDay();
+	};
+	SimpleDate.prototype.addDays = function (delta) {
+		var jsDate = new Date(this.year,this.month-1,this.day+delta);
+		return SimpleDate.fromJsDate(jsDate);
+	};
+	SimpleDate.fromJsDate = function (jsDate) {
+		return new SimpleDate(jsDate.getDate(),jsDate.getMonth()+1,jsDate.getFullYear());
+	};
+	SimpleDate.prototype.isToday = function () {
+		var today = new Date();
+		return (this.day === today.getDate()) && (this.month === today.getMonth()+1) && (this.year === today.getFullYear());
+	};
+	SimpleDate.prototype.weekNumber = function() {
+		var monthStart = [0,31,59,90,120,151,181,212,243,273,304,334][this.month-1];
+		var isLeap = (this.year % 4 === 0) && (this.year % 100 !== 0) || (this.year % 400 === 0);
+		if (this.month > 2 && isLeap) {
+			monthStart += 1;
+		}
+		var dayOfWeek = this.dayOfWeek()-1;
+		if (dayOfWeek < 0) {
+			dayOfWeek += 7;
+		}
+		var weekNumber = Math.floor((monthStart + this.day - dayOfWeek + 10)/7);
+		return weekNumber;
 	};
 
 	return {

@@ -26,7 +26,13 @@ angular.module(
     }
     $scope.$watch('settings', changeSettings, angular.equals);
 
-    $scope.weeks = [{start: new Utils.SimpleDate(15,11,2013), numDays: 7}];
+    var today = Utils.SimpleDate.fromJsDate(new Date());
+    var weekStartDelta = today.dayOfWeek()-1;
+    if (weekStartDelta < 0 ) {
+        weekStartDelta += 7;
+    }
+    var startOfThisWeek = today.addDays(-weekStartDelta);
+    $scope.weeks = [{start: startOfThisWeek, numDays: 7}];
 
 }).controller('TopNavCtrl', function TopNavCtrl($scope) {
     $scope.showInDropdown = '';
@@ -38,13 +44,11 @@ angular.module(
         }
     };
 }).controller('WeekCtrl', function WeekCtrl($scope, Utils) {
-    $scope.days = [
-            {dayDate: new Utils.SimpleDate(15,11,2013), dayOpen: false},
-            {dayDate: new Utils.SimpleDate(16,11,2013), dayOpen: false},
-            {dayDate: new Utils.SimpleDate(17,11,2013), dayOpen: false},
-            {dayDate: new Utils.SimpleDate(18,11,2013), dayOpen: true},
-            {dayDate: new Utils.SimpleDate(19,11,2013), dayOpen: false},
-            {dayDate: new Utils.SimpleDate(20,11,2013), dayOpen: false},
-            {dayDate: new Utils.SimpleDate(21,11,2013), dayOpen: false}
-        ];
+    $scope.days = [];
+    for (var d = 0 ; d < 7 ; d++) {
+        var dayDate = $scope.startOfWeek.addDays(d);
+        $scope.days.push( {dayDate: dayDate, dayOpen: dayDate.isToday() });
+    }
+    $scope.endOfWeek = $scope.days[$scope.days.length-1].dayDate;
+    $scope.weekNumber = $scope.startOfWeek.weekNumber();
 });
