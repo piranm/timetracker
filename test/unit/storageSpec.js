@@ -50,17 +50,29 @@ describe('Storage', function() {
 			expect(retrieved.tasks[1].marks[2]).toEqual(1);
 		}));
 
-		it("should clear stored days", inject(function(Storage, Utils) {
+		it("should clear stored days and settings", inject(function(Storage, Utils) {
 			var date = new Utils.SimpleDate(30,1,2013);
 			var day = Storage.getDayRecord(date);
 
 			day.comment = 'day comment';
 			Storage.setDayRecord(date, day);
+			Storage.setSettings({test:'value'});
 
 			Storage.clear();
 
 			var retrieved = Storage.getDayRecord(date);
 			expect(retrieved.comment).toEqual('');
+			expect(Storage.getSettings()).toEqual({});
+		}));
+
+		it("should store settings", inject(function(Storage) {
+			var settings = Storage.getSettings();
+			expect(Storage.getSettings()).toEqual({});
+
+			settings.test = 'value';
+			Storage.setSettings(settings);
+
+			expect(Storage.getSettings()).toEqual({test:'value'});
 		}));
 	} );
 

@@ -9,9 +9,17 @@ angular.module(
 
     var localStorage = window.localStorage;
 
+    var keyPrefix = 'TimeTracker:';
+    function retrieveJson(k) {
+        return angular.fromJson(localStorage.getItem(keyPrefix+k));
+    }
+    function storeJson(k,v) {
+        localStorage.setItem(keyPrefix+k,angular.toJson(v));
+    }
+
     return {
         getDayRecord: function (date) {
-            var dayRecord = localStorage.getItem(date.format('yyyy-MM-dd'));
+            var dayRecord = retrieveJson(date.format('yyyy-MM-dd'));
             if (dayRecord === null) {
                 dayRecord = {
                     comment: '',
@@ -23,14 +31,24 @@ angular.module(
                         }
                     ]
                 };
-            } else {
-                dayRecord = angular.fromJson(dayRecord);
             }
             return dayRecord;
         },
 
         setDayRecord: function (date,dayRecord) {
-            localStorage.setItem(date.format('yyyy-MM-dd'), angular.toJson(dayRecord));
+            storeJson(date.format('yyyy-MM-dd'), dayRecord);
+        },
+
+        getSettings: function () {
+            var settings = retrieveJson('settings');
+            if (settings === null) {
+                return {};
+            }
+            return settings;
+        },
+
+        setSettings: function (settings) {
+            storeJson('settings', settings);
         },
 
         clear: function () {
