@@ -26,14 +26,36 @@ angular.module(
     }
     $scope.$watch('settings', changeSettings, angular.equals);
 
-    var today = Utils.SimpleDate.fromJsDate(new Date());
-    var weekStartDelta = today.dayOfWeek()-1;
+    $scope.today = $scope.today || Utils.SimpleDate.fromJsDate(new Date()); // allow debug injection of date
+    var weekStartDelta = $scope.today.dayOfWeek()-1;
     if (weekStartDelta < 0 ) {
         weekStartDelta += 7;
     }
-    var startOfThisWeek = today.addDays(-weekStartDelta);
-    $scope.weeks = [{start: startOfThisWeek, numDays: 7}];
+    var startOfThisWeek = $scope.today.addDays(-weekStartDelta);
+    $scope.weeks = [{start: startOfThisWeek}];
 
+    $scope.showPreviousWeek = function () {
+        var weekStart = $scope.weeks[0].start.addDays(-7);
+        $scope.weeks.unshift( {start:weekStart} );
+    };
+
+    $scope.showPreviousMonth = function () {
+        var currentStart = $scope.weeks[0].start;
+        if (currentStart.day === 1) {
+            currentStart = currentStart.addDays(-1);
+        }
+        var startOfMonth = currentStart.addDays(-currentStart.day+1);
+        var weekStart = $scope.weeks[0].start;
+        while (weekStart.after(startOfMonth)) {
+            weekStart = weekStart.addDays(-7);
+            $scope.weeks.unshift( {start:weekStart} );
+        }
+    };
+
+    $scope.hideExtraWeeks = function () {
+        $scope.weeks.splice(0,$scope.weeks.length-1);
+    };
+    
 }).controller('TopNavCtrl', function TopNavCtrl($scope) {
     $scope.showInDropdown = '';
     $scope.showDropdown = function(item) {

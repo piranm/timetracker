@@ -53,8 +53,21 @@ angular.module(
 		return new SimpleDate(jsDate.getDate(),jsDate.getMonth()+1,jsDate.getFullYear());
 	};
 	SimpleDate.prototype.isToday = function () {
-		var today = new Date();
-		return (this.day === today.getDate()) && (this.month === today.getMonth()+1) && (this.year === today.getFullYear());
+		var today = SimpleDate.fromJsDate(new Date());
+		return this.equals(today);
+	};
+	SimpleDate.prototype.equals = function (other) {
+		return (this.day === other.day) && (this.month === other.month) && (this.year === other.year);
+	};
+	SimpleDate.prototype.after = function (other) {
+		var delta = this.year - other.year;
+		if (delta === 0) {
+			delta = this.month - other.month;
+			if (delta === 0) {
+				delta = this.day - other.day;
+			}
+		}
+		return delta > 0;
 	};
 	SimpleDate.prototype.weekNumber = function() {
 		var monthStart = [0,31,59,90,120,151,181,212,243,273,304,334][this.month-1];

@@ -6,8 +6,6 @@
 angular.module(
     'DayControllers', ['Utils']
 ).controller('DayCtrl', function DayCtrl($scope) {
-    $scope.date = '17-Jan-2013';
-    $scope.open = true;
     $scope.day = {
         comment: '',
         total: 8,
@@ -25,8 +23,6 @@ angular.module(
 }
 
 ).controller('DayEditorCtrl', function DayEditorCtrl($scope, Utils) {
-    $scope.dayOfWeek = 'Thursday';
-
     function firstHourWorked(day) {
         for (var h = 0 ; h < 24 ; h++) {
             for (var t = 0; t < day.tasks.length; t++) {

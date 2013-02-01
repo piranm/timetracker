@@ -48,6 +48,35 @@ describe('Utils', function() {
 			var wikipediaExample = new Utils.SimpleDate(26,9,2008);
 			expect(wikipediaExample.weekNumber()).toEqual(39);
 		}));
+		it('should match equality',inject(function(Utils) {
+			var target = new Utils.SimpleDate(30,1,2013);
+			var same   = new Utils.SimpleDate(30,1,2013);
+			var differentDay = new Utils.SimpleDate(29,1,2013);
+			var differentMonth = new Utils.SimpleDate(30,2,2013);
+			var differentYear = new Utils.SimpleDate(30,1,2014);
+
+			expect(target.equals(target)).toBe(true);
+			expect(target.equals(same)).toBe(true);
+			expect(target.equals(differentDay)).toBe(false);
+			expect(target.equals(differentMonth)).toBe(false);
+			expect(target.equals(differentYear)).toBe(false);
+		}));
+		it('should find after()',inject(function(Utils) {
+			var target = new Utils.SimpleDate(10,2,2013);
+			var same   = new Utils.SimpleDate(10,2,2013);
+			var beforeDay = new Utils.SimpleDate(8,2,2013);
+			var afterDayBeforeMonth = new Utils.SimpleDate(20,1,2013);
+			var afterDayAfterMonthBeforeYear = new Utils.SimpleDate(20,3,2010);
+
+			expect(target.after(target)).toBe(false);
+			expect(target.after(same)).toBe(false);
+			expect(target.after(beforeDay)).toBe(true);
+			expect(beforeDay.after(target)).toBe(false);
+			expect(target.after(afterDayBeforeMonth)).toBe(true);
+			expect(afterDayBeforeMonth.after(target)).toBe(false);
+			expect(target.after(afterDayAfterMonthBeforeYear)).toBe(true);
+			expect(afterDayAfterMonthBeforeYear.after(target)).toBe(false);
+		}));
 	} );
 
 });

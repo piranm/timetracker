@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en" ng-app="timetracker">
 <head>
 	<meta charset="utf-8">
@@ -20,19 +19,28 @@
 		<div id="workHoursContainer">
 			<div id ="currentTimeContainer">
 
-				<p class="button">
+				<p class="button" ng-click="showPreviousMonth()">
 					[&lt;&lt;] Previous Month
 				</p>
 
-				<p class="button">
+				<p class="button" ng-click="showPreviousWeek()">
 					&nbsp;[&lt;] Previous Week 
 				</p>
+
+				<div ng-switch on="weeks.length" >
+					<div ng-switch-when="1"></div>
+					<div ng-switch-default>
+						<p class="button" ng-click="hideExtraWeeks()">
+							&nbsp;[X] Hide Extra Weeks
+						</p>
+					</div>
+				</div>
 
 				<div ng-repeat="w in weeks">
 					<div class="weekContainer" ng-init="startOfWeek=w.start">
 						<div ng-controller="WeekCtrl">
 
-							<p class="button">
+							<p>
 								Week {{weekNumber}} - {{startOfWeek | date:'dm'}} to {{endOfWeek | date:'dmy'}}
 							</p>
 
@@ -47,7 +55,7 @@
 										</p>
 										<div ng-switch on="dayOpen" >
 											<div ng-switch-when="true">
-												<div ng-include="'partials/day-editor.html'" autoscroll="true"></div>
+												<div ng-include="'partials/day-editor.html'"></div>
 										  	</div>
 										</div>
 									</div>
