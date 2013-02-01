@@ -4,22 +4,10 @@
 /*global angular:false */
 
 angular.module(
-    'DayControllers', ['Utils']
-).controller('DayCtrl', function DayCtrl($scope) {
-    $scope.day = {
-        comment: '',
-        total: 8,
-        tasks: [
-            {
-                task: 'first task',
-                marks: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            },
-            {
-                task: 'second task',
-                marks: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            }
-        ]
-    };
+    'DayControllers', ['Storage','Utils']
+).controller('DayCtrl', function DayCtrl($scope, Storage) {
+    $scope.day = Storage.getDayRecord($scope.date);
+    $scope.$watch('day', function(newValue) { Storage.setDayRecord($scope.date,newValue); }, angular.equals);
 }
 
 ).controller('DayEditorCtrl', function DayEditorCtrl($scope, Utils) {

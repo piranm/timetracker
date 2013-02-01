@@ -4,8 +4,8 @@
 /* App Controllers */
 
 angular.module(
-    'AppControllers', ['Utils']
-).controller('AppCtrl', function AppCtrl($scope,Utils) {
+    'AppControllers', ['Utils','Storage']
+).controller('AppCtrl', function AppCtrl($scope,Utils,Storage) {
 
     $scope.settings = {
         name: 'Time Tracker',
@@ -15,8 +15,11 @@ angular.module(
         showStart: 8,
         showEnd: 19
     };
+    angular.extend($scope.settings, Storage.getSettings());
 
-    function changeSettings() {
+    function changeSettings(newValue) {
+        Storage.setSettings(newValue);
+
         var workClasses = '';
         for (var h = $scope.settings.workStart ; h < $scope.settings.workEnd ; h += 0.5 ) {
             var baseHour = Math.floor(h);
