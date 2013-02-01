@@ -1,0 +1,67 @@
+<div ng-controller="SettingsCtrl">
+
+	<div class="setting">
+		<div class="title">Title</div>
+		<div class="entry"><label>Name: <input type="text" ng-model="settings.name"/></label></div>
+		<div class="hint">
+			<p>What name should be shown at the top of the page?</p>
+			<p>Setting this stops helps you stop accidentally entering time on someone else's timesheet.</p>
+		</div>
+		<br class="clear" />
+	</div>
+
+	<div class="setting">
+		<div class="title">Time Format</div>
+		<div class="entry">
+			<label>Format: 
+				<select ng-model="settings.timeFormat" ng-options="tf.format as tf.name for tf in timeFormats">
+				</select>
+			</label>
+		</div>
+		<div class="hint">
+			<p>What format do you want time shown in?</p>
+		</div>
+		<br class="clear" />
+	</div>
+
+	<div class="setting">
+		<div class="title">Working Hours</div>
+		<div class="entry">
+			<label>Start: 
+				<select ng-model="settings.workStart" ng-options="t | hour for t in timeStartHalfRange" >
+				</select>
+			</label>
+			<label>Finish: 
+				<select ng-model="settings.workEnd" ng-options="t | hour for t in timeFinishHalfRange" >
+				</select>
+			</label>
+			<label>Lunch?</label>
+		</div>
+		<div class="hint">
+			<p>What are your normal working hours?</p>
+			<p>The time grid shows a lighter grey for your working hours. Looking at the summary row makes it clearer when you've not worked normal hours.</p>
+		</div>
+		<br class="clear" />
+	</div>
+
+	<div class="setting">
+		<div class="title">Display Hours</div>
+		<div class="entry">
+			<label>Start: 
+				<select ng-model="settings.showStart" ng-options="t | hour for t in timeStartRange">
+				</select>
+			</label>
+			<label>Finish: 
+				<select ng-model="settings.showEnd" ng-options="t | hour for t in timeFinishRange">
+				</select>
+			</label>
+		</div>
+		<div class="hint">
+			<p>When the time grid is displayed, what hours do you want shown on it?</p>
+			<p>If you sometimes come in early or work late, then setting this outside your normal working hours makes it quicker to record time there.</p>
+			<p>You can always use the [&lt;] and [&gt;] buttons to show more hours.</p>
+		</div>
+		<br class="clear" />
+	</div>
+
+</div>
