@@ -1,21 +1,72 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="phonecat">
+<html lang="en" ng-app="timetracker">
 <head>
-  <meta charset="utf-8">
-  <title>Google Phone Gallery</title>
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/app.css">
-  <script src="lib/angular/angular.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/controllers.js"></script>
-  <script src="js/trackControllers.js"></script>
+	<meta charset="utf-8">
+	<title>Time Tracker</title>
+	<link rel="stylesheet" href="css/app.css">
+	<script src="lib/angular/angular.js"></script>
+	<script src="js/filters.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/appControllers.js"></script>
+	<script src="js/dayControllers.js"></script>
+	<script src="js/utils.js"></script>
+	<script src="js/settingsControllers.js"></script>
 </head>
-<body>
+<body ng-controller="AppCtrl">
 
-	<p>Today</p>
-	
-	<div>
-		The table
+	<div ng-include="'partials/top-nav.html'"></div>
+
+	<div class="main">
+		<div id="workHoursContainer">
+			<div id ="currentTimeContainer">
+
+				<p class="button" ng-click="showPreviousMonth()">
+					[&lt;&lt;] Previous Month
+				</p>
+
+				<p class="button" ng-click="showPreviousWeek()">
+					&nbsp;[&lt;] Previous Week 
+				</p>
+
+				<div ng-switch on="weeks.length" >
+					<div ng-switch-when="1"></div>
+					<div ng-switch-default>
+						<p class="button" ng-click="hideExtraWeeks()">
+							&nbsp;[X] Hide Extra Weeks
+						</p>
+					</div>
+				</div>
+
+				<div ng-repeat="w in weeks">
+					<div class="weekContainer" ng-init="startOfWeek=w.start">
+						<div ng-controller="WeekCtrl">
+
+							<p>
+								Week {{weekNumber}} - {{startOfWeek | date:'dm'}} to {{endOfWeek | date:'dmy'}}
+							</p>
+
+							<div class="weekDays">
+
+								<div ng-repeat="d in days">
+								  	<div ng-controller="DayCtrl" ng-init="dayOpen=d.dayOpen; date=d.dayDate">
+										<p ng-click="dayOpen = !dayOpen" class="button">
+											[{{dayOpen | choice:'true|-|+'}}]
+											{{date | date:'Ddmy'}} - {{day.total}}&nbsp;hrs 
+											{{day.comment | choice:'||-'}} {{day.comment}}
+										</p>
+										<div ng-switch on="dayOpen" >
+											<div ng-switch-when="true">
+												<div ng-include="'partials/day-editor.html'"></div>
+										  	</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</div>
 
 </body>

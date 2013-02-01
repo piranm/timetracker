@@ -2,6 +2,8 @@
 
 A simple tool to make it quick and easy to record your time. At the end of the week, you can fill in your timesheet from reliable and accurate data.
 
+A demo of this project is at http://piranm.github.com/timetracker/
+
 STATUS: Very much **In Development**
 
 NOTE: This is not my idea, see History below.
