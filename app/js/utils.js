@@ -6,6 +6,13 @@
 angular.module(
     'Utils', []
 ).service('Utils', function () {
+	function zeroPad(num, len) {
+		var out = num.toString();
+		while (out.length < len) {
+			out = '0' + out;
+		}
+		return out;
+	}
 	function SimpleDate(day, month, year) {
 		this.day = day;
 		this.month = month;
@@ -13,31 +20,30 @@ angular.module(
 	}
 	SimpleDate.prototype.format = function (fmt) {
 		var out = '';
-		for (var i = 0 ; i < fmt.length; i++) {
-			var p = fmt[i];
-			if (p === "D") {
-				out = out + ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][this.dayOfWeek()];
-			}
-			if (p === 'd') {
-				if (out !== '') {
-					out = out + ' ';
+		var parts = fmt.split(/(E+|d+|M+|y+|.)/);
+		for (var i = 0 ; i < parts.length ; i++ ) {
+			var p = parts[i];
+			if (p.length > 0 ) {
+				switch (p[0]) {
+					case 'd':
+						out = out + zeroPad(this.day, p.length);
+						break;
+					case 'E':
+						out = out + ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][this.dayOfWeek()];
+						break;
+					case 'M':
+						if (p.length < 3) {
+							out = out + zeroPad(this.month, p.length);
+						} else {
+							out = out + ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][this.month];
+						}
+						break;
+					case 'y':
+						out = out + zeroPad(this.year, p.length);
+						break;
+					default:
+						out = out + p;
 				}
-				if (this.day < 10) {
-					out = out + '0';
-				}
-				out = out + this.day;
-			}
-			if (p === 'm') {
-				if (out !== '') {
-					out = out + '-';
-				}
-				out = out + ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][this.month];
-			}
-			if (p === 'y') {
-				if (out !== '') {
-					out = out + '-';
-				}
-				out = out + this.year;
 			}
 		}
 		return out;

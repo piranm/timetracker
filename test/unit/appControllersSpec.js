@@ -22,7 +22,7 @@ describe('appControllers', function() {
           var expected = new Utils.SimpleDate(day,month,year);
           var notText = this.isNot ? " not" : "";
           this.message = function () {
-            return "Expected " + actual.format('dmy') + notText + " to be " + expected.format('dmy');
+            return "Expected " + actual.format('dd-MMM-yyyy') + notText + " to be " + expected.format('dd-MMM-yyyy');
           };
           return actual.equals(expected);
         }

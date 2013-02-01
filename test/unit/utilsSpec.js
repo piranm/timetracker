@@ -18,21 +18,24 @@ describe('Utils', function() {
 		}));
 		it('should format correctly', inject(function(Utils) {
 			var d = new Utils.SimpleDate(30,1,2013);
-			expect(d.format('Ddmy')).toEqual('Wed 30-Jan-2013');
-			expect(d.format('dmy')).toEqual('30-Jan-2013');
-			expect(d.format('dm')).toEqual('30-Jan');
+			expect(d.format('EEE dd-MMM-yyyy')).toEqual('Wed 30-Jan-2013');
+			expect(d.format('dd-MMM-yyyy')).toEqual('30-Jan-2013');
+			expect(d.format('dd-MMM')).toEqual('30-Jan');
 			
 			var shortDay = new Utils.SimpleDate(1,1,2013);
-			expect(shortDay.format('dmy')).toEqual('01-Jan-2013');
+			expect(shortDay.format('dd-MMM-yyyy')).toEqual('01-Jan-2013');
+
+			expect(d.format('yyyy-MM-dd')).toEqual('2013-01-30');
+			expect(shortDay.format('yyyy-MM-dd')).toEqual('2013-01-01');
 		}));
 		it('should add days correctly', inject(function(Utils) {
 			var d = new Utils.SimpleDate(30,1,2013);
-			expect(d.addDays(0).format('dmy')).toEqual('30-Jan-2013');
-			expect(d.addDays(1).format('dmy')).toEqual('31-Jan-2013');
-			expect(d.addDays(2).format('dmy')).toEqual('01-Feb-2013');
+			expect(d.addDays(0).format('dd-MMM-yyyy')).toEqual('30-Jan-2013');
+			expect(d.addDays(1).format('dd-MMM-yyyy')).toEqual('31-Jan-2013');
+			expect(d.addDays(2).format('dd-MMM-yyyy')).toEqual('01-Feb-2013');
 
-			expect(d.addDays(-1).format('dmy')).toEqual('29-Jan-2013');
-			expect(d.addDays(-30).format('dmy')).toEqual('31-Dec-2012');
+			expect(d.addDays(-1).format('dd-MMM-yyyy')).toEqual('29-Jan-2013');
+			expect(d.addDays(-30).format('dd-MMM-yyyy')).toEqual('31-Dec-2012');
 		}));
 		it('should know if today',inject(function(Utils) {
 			var today = Utils.SimpleDate.fromJsDate(new Date());
