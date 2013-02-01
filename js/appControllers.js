@@ -5,7 +5,7 @@
 
 angular.module(
     'AppControllers', ['Utils','Storage']
-).controller('AppCtrl', function AppCtrl($scope,Utils,Storage) {
+).controller('AppCtrl', function AppCtrl($scope,Utils,Storage, $timeout) {
 
     $scope.settings = {
         name: 'Time Tracker',
@@ -58,15 +58,39 @@ angular.module(
     $scope.hideExtraWeeks = function () {
         $scope.weeks.splice(0,$scope.weeks.length-1);
     };
+
+    function higlightCurrentHour() {
+        var now = new Date();
+        var nowClass = 'now-'+now.getHours()+(now.getMinutes() >= 30 ? 'h':'');
+        var currentTimeContainer = document.getElementById('currentTimeContainer');
+        if (currentTimeContainer) {
+            currentTimeContainer.setAttribute('class',nowClass);
+        }
+    }
+    var halfHourTimeout;
+    function waitForHalfHour() {
+        var now = new Date();
+        var minutes = now.getMinutes() % 30;
+        var seconds = (60 - now.getSeconds()) + 60*(30 - minutes - 1);
+        halfHourTimeout = $timeout(halfHourAction, seconds*1000, false);
+    }
+    function halfHourAction() {
+        higlightCurrentHour();
+        waitForHalfHour();
+    }
+    $scope.$on('$destroy', function () { $timeout.cancel(halfHourTimeout); });
+    waitForHalfHour();
+    higlightCurrentHour();
     
 }).controller('TopNavCtrl', function TopNavCtrl($scope) {
     $scope.showInDropdown = '';
-    $scope.showDropdown = function(item) {
+    $scope.showDropdown = function(item, $event) {
         if (item === $scope.showInDropdown) {
             $scope.showInDropdown = '';
         } else {
             $scope.showInDropdown = item;
         }
+        $event.stopPropagation();
     };
 }).controller('WeekCtrl', function WeekCtrl($scope, Utils) {
     $scope.days = [];

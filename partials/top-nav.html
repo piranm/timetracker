@@ -1,12 +1,13 @@
-<div class="navbar-fixed-top" ng-controller="TopNavCtrl">
+<div ng-controller="TopNavCtrl">
+<div class="navbar-fixed-top" ng-click="showDropdown('',$event)">
 	<div class="optButtons">
 		<ul class="optButtons">
 			<li ng-class="showInDropdown | choice:'settings|selected|'" 
-			    ng-click="showDropdown('settings')">Settings</li>
+			    ng-click="showDropdown('settings',$event)">Settings</li>
 			<li ng-class="showInDropdown | choice:'export|selected|'" 
-			    ng-click="showDropdown('export')">Export</li>
+			    ng-click="showDropdown('export',$event)">Export</li>
 			<li ng-class="showInDropdown | choice:'help|selected|'"
-			    ng-click="showDropdown('help')">?</li>
+			    ng-click="showDropdown('help',$event)">?</li>
 		</ul>
 		<div ng-switch on="showInDropdown"
 			 class="dropdown-menu" ng-class="showInDropdown | choice:'||open'" >
@@ -16,4 +17,5 @@
 		</div>
 	</div>
 	<span>{{settings.name}}</span>
+</div>
 </div>
