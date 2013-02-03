@@ -5,7 +5,7 @@
 
 angular.module(
     'AppControllers', ['Utils','Storage']
-).controller('AppCtrl', function AppCtrl($scope,Utils,Storage, $timeout) {
+).controller('AppCtrl', function AppCtrl($scope,Utils,Storage,$timeout) {
 
     $scope.settings = {
         name: 'Time Tracker',
