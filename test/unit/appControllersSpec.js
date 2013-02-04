@@ -8,9 +8,10 @@ describe('appControllers', function() {
   beforeEach(module('AppControllers', 'Utils'));
 
   describe('AppCtrl', function() {
-    var scope, ctrl, makeCtrl, SimpleDate;
+    var scope, ctrl, makeCtrl, SimpleDate, Utils;
 
-    beforeEach(inject(function($rootScope, $controller, Utils) {
+    beforeEach(inject(function($rootScope, $controller, _Utils_) {
+      Utils = _Utils_;
       scope = $rootScope.$new();
       makeCtrl = function() {
         ctrl = $controller('AppCtrl', {$scope: scope});
@@ -28,6 +29,63 @@ describe('appControllers', function() {
         }
       });
     }));
+
+    describe('notification', function () {
+      var dayRecord;
+      beforeEach(function () {
+        dayRecord = { tasks: [{marks:[]}]};
+        Utils.forRange(0,47,function () { dayRecord.tasks[0].marks.push(0); });
+      });
+
+      it("should correctly calculate message", function () {
+        var msg;
+        makeCtrl();
+        var now = new Date();
+        
+        now.setHours(9); now.setMinutes(0);
+        msg = scope.makeNotificationMessage(dayRecord, now);
+        expect(msg).toEqual("You've not filled in your time today.");
+
+        dayRecord.tasks[0].marks[20] = 1;
+        msg = scope.makeNotificationMessage(dayRecord, now);
+        expect(msg).toBe(undefined);
+
+        now.setHours(10); now.setMinutes(0);
+        msg = scope.makeNotificationMessage(dayRecord, now);
+        expect(msg).toBe(undefined);
+
+        now.setHours(10); now.setMinutes(30);
+        msg = scope.makeNotificationMessage(dayRecord, now);
+        expect(msg).toEqual("You're half-an-hour behind.");
+
+        now.setHours(11); now.setMinutes(0);
+        msg = scope.makeNotificationMessage(dayRecord, now);
+        expect(msg).toEqual("You're one hour behind.");
+
+        now.setHours(12); now.setMinutes(30);
+        msg = scope.makeNotificationMessage(dayRecord, now);
+        expect(msg).toEqual("You're 2.5hrs behind.");
+      });
+
+      it("should know working hours", function () {
+        var msg;
+        makeCtrl();
+        scope.settings.workStart = 9.5; scope.settings.workEnd = 17.5;
+        var now = new Date();
+        
+        now.setHours(9); now.setMinutes(0);
+        expect(scope.isInWorkHours(now)).toEqual(false);
+
+        now.setHours(9); now.setMinutes(30);
+        expect(scope.isInWorkHours(now)).toEqual(true);
+
+        now.setHours(17); now.setMinutes(30);
+        expect(scope.isInWorkHours(now)).toEqual(true);
+
+        now.setHours(18); now.setMinutes(0);
+        expect(scope.isInWorkHours(now)).toEqual(false);
+      });
+    });
 
     describe('week handling', function () {
       it("should start with today's date and one week on a Monday", function () {

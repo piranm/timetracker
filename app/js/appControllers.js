@@ -4,8 +4,8 @@
 /* App Controllers */
 
 angular.module(
-    'AppControllers', ['Utils','Storage']
-).controller('AppCtrl', function AppCtrl($scope,Utils,Storage,$timeout) {
+    'AppControllers', ['Utils','Storage','Notification']
+).controller('AppCtrl', function AppCtrl($scope,Utils,Storage,$timeout,Notification) {
 
     $scope.settings = {
         name: 'Time Tracker',
@@ -13,7 +13,10 @@ angular.module(
         workStart: 9.0,
         workEnd: 17.5,
         showStart: 8,
-        showEnd: 19
+        showEnd: 19,
+        notificationEnabled: false,
+        notificationFrequency: 30,
+        notificationWorkHoursOnly: false
     };
     angular.extend($scope.settings, Storage.getSettings());
 
@@ -59,28 +62,82 @@ angular.module(
         $scope.weeks.splice(0,$scope.weeks.length-1);
     };
 
-    function higlightCurrentHour() {
-        var now = new Date();
+    function halfHourAction(debugTime) {
+        var now = debugTime || new Date();
+        higlightCurrentTime(now);
+        showNotification(now);
+        waitForHalfHour(now);
+    }
+    function higlightCurrentTime(now) {
         var nowClass = 'now-'+now.getHours()+(now.getMinutes() >= 30 ? 'h':'');
         var currentTimeContainer = document.getElementById('currentTimeContainer');
         if (currentTimeContainer) {
             currentTimeContainer.setAttribute('class',nowClass);
         }
     }
-    var halfHourTimeout;
-    function waitForHalfHour() {
-        var now = new Date();
+    var tickTimeout;
+    function waitForHalfHour(now) {
         var minutes = now.getMinutes() % 30;
         var seconds = (60 - now.getSeconds()) + 60*(30 - minutes - 1);
-        halfHourTimeout = $timeout(halfHourAction, seconds*1000, false);
+        tickTimeout = $timeout(halfHourAction, seconds*1000, false);
     }
-    function halfHourAction() {
-        higlightCurrentHour();
-        waitForHalfHour();
+    $scope.$on('$destroy', function () { $timeout.cancel(tickTimeout); });
+
+    function notificationClick() {
+        window.focus();
+        this.cancel();
     }
-    $scope.$on('$destroy', function () { $timeout.cancel(halfHourTimeout); });
-    waitForHalfHour();
-    higlightCurrentHour();
+    function showNotification(now) {
+        if ($scope.settings.notificationEnabled) {
+            if ($scope.settings.notificationWorkHoursOnly && !isInWorkHours(now)) {
+                return;
+            }
+
+            if ((now.getMinutes() % $scope.settings.notificationFrequency) === 0) {
+                var todayRecord = Storage.getDayRecord($scope.today);
+                var msg = makeNotificationMessage(todayRecord, now);
+                if (angular.isDefined(msg)) {
+                    Notification.show('Time Tracker', msg, 'img/favicon.ico', 'timetracker', notificationClick, undefined);
+                }
+            }
+        }
+    }
+    function makeNotificationMessage(dayRecord, now) {
+        function findLastMark(dayRecord) {
+            for (var i = 47 ; i >= 0 ; i--) {
+                for (var j = dayRecord.tasks.length-1 ; j >= 0 ; j--) {
+                    if ( dayRecord.tasks[j].marks[i] !== 0) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        var lastMark = findLastMark(dayRecord);
+        var currMark = now.getHours()*2 + (now.getMinutes() < 30 ? 0 : 1);
+        if (lastMark === -1) {
+            return "You've not filled in your time today.";
+        } else if (lastMark >= currMark) {
+            return undefined; // nothing to say
+        } else if (lastMark === currMark-1) {
+            return "You're half-an-hour behind.";
+        } else if (lastMark === currMark-2) {
+            return "You're one hour behind.";
+        } else {
+            return "You're "+(currMark - lastMark)/2+"hrs behind.";
+        }
+    }
+    $scope.makeNotificationMessage = makeNotificationMessage; // for testing
+
+    function isInWorkHours(now) {
+        var nowTime = now.getHours() + (now.getMinutes() < 30 ? 0 : 0.5);
+        return nowTime >= $scope.settings.workStart && nowTime <= $scope.settings.workEnd;
+    }
+    $scope.isInWorkHours = isInWorkHours; // for testing
+
+    halfHourAction();
+    $scope.halfHourAction = halfHourAction;
     
 }).controller('TopNavCtrl', function TopNavCtrl($scope) {
     $scope.showInDropdown = '';

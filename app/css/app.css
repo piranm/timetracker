@@ -152,12 +152,15 @@ h1 {
 	clear: both;
 }
 p {
-	margin: 4px;
+	margin: 4px 0px;
 }
 label {
     white-space: nowrap;
     display: block;
     width: 100%;
+}
+input[type="checkbox"] {
+    margin-left: 0;
 }
 
 /** Mark Table **/
