@@ -115,7 +115,7 @@ angular.module(
         }
 
         var lastMark = findLastMark(dayRecord);
-        var currMark = now.getHours()*2 + (now.getMinutes() < 30 ? 0 : 1);
+        var currMark = now.getHours()*2 + (now.getMinutes() < 30 ? 0 : 1)-1;
         if (lastMark === -1) {
             return "You've not filled in your time today.";
         } else if (lastMark >= currMark) {

@@ -56,13 +56,17 @@ describe('appControllers', function() {
 
         now.setHours(10); now.setMinutes(30);
         msg = scope.makeNotificationMessage(dayRecord, now);
-        expect(msg).toEqual("You're half-an-hour behind.");
+        expect(msg).toBe(undefined);
 
         now.setHours(11); now.setMinutes(0);
         msg = scope.makeNotificationMessage(dayRecord, now);
+        expect(msg).toEqual("You're half-an-hour behind.");
+
+        now.setHours(11); now.setMinutes(30);
+        msg = scope.makeNotificationMessage(dayRecord, now);
         expect(msg).toEqual("You're one hour behind.");
 
-        now.setHours(12); now.setMinutes(30);
+        now.setHours(13); now.setMinutes(0);
         msg = scope.makeNotificationMessage(dayRecord, now);
         expect(msg).toEqual("You're 2.5hrs behind.");
       });
