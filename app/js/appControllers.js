@@ -97,7 +97,7 @@ angular.module(
                 var todayRecord = Storage.getDayRecord($scope.today);
                 var msg = makeNotificationMessage(todayRecord, now);
                 if (angular.isDefined(msg)) {
-                    Notification.show('Time Tracker', msg, 'img/favicon.ico', 'timetracker', notificationClick, undefined);
+                    Notification.show('Time Tracker', msg, 'img/favicon.png', 'timetracker', notificationClick, undefined);
                 }
             }
         }
