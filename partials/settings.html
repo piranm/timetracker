@@ -11,15 +11,32 @@
 	</div>
 
 	<div class="setting">
-		<div class="title">Time Format</div>
+		<div class="title">Notification</div>
 		<div class="entry">
-			<label>Format: 
-				<select ng-model="settings.timeFormat" ng-options="tf.format as tf.name for tf in timeFormats">
-				</select>
-			</label>
+			<div ng-switch on="notificationsStatus">
+				<div ng-switch-when="unsupported">Notifications are not supported on your browser. Try using another web browser, such as Chrome.</div>
+				<div ng-switch-when="denied">Notifications have been disabled for this site. To re-enable, you must allow this site in your Chrome Settings:
+			        <ol>
+			          <li>Go to Chrome's settings</li>
+			          <li>In the "Search Settings" box (top right) type in "Notifications"</li>
+			          <li>Follow the instructions on screen</li>
+			        </ol>
+		      	</div>
+		      	<div ng-switch-default>
+					<p><label><input type="checkbox" ng-model="settings.notificationEnabled" />Show notification</label></p>
+					<div ng-show="settings.notificationEnabled">
+						<p><label>How often: 
+							<select ng-model="settings.notificationFrequency" ng-options="f.freq as f.name for f in notificationFreqChoices" >
+							</select>
+						</label></p>
+						<p><label><input type="checkbox" ng-model="settings.notificationWorkHoursOnly" />Only in Working Hours</label></p>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="hint">
-			<p>What format do you want time shown in?</p>
+			<p>Show a notification if you haven't filled in your time; when the notification appears, clicking on it will take you to today's time grid.</p>
+			<p>Restricting noticiations to 'Only in Working Hours' means you won't get notifications out-of-hours, if you're busy watching a movie on your laptop at home.</p>
 		</div>
 		<br class="clear" />
 	</div>
@@ -60,6 +77,20 @@
 			<p>When the time grid is displayed, what hours do you want shown on it?</p>
 			<p>If you sometimes come in early or work late, then setting this outside your normal working hours makes it quicker to record time there.</p>
 			<p>You can always use the [&lt;] and [&gt;] buttons to show more hours.</p>
+		</div>
+		<br class="clear" />
+	</div>
+
+	<div class="setting">
+		<div class="title">Time Format</div>
+		<div class="entry">
+			<label>Format: 
+				<select ng-model="settings.timeFormat" ng-options="tf.format as tf.name for tf in timeFormats">
+				</select>
+			</label>
+		</div>
+		<div class="hint">
+			<p>What format do you want time shown in?</p>
 		</div>
 		<br class="clear" />
 	</div>

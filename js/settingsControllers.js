@@ -3,8 +3,8 @@
 /* Settings Controllers */
 
 angular.module(
-    'SettingsControllers', ['Utils']
-).controller('SettingsCtrl', function SettingsCtrl($scope, Utils) {
+    'SettingsControllers', ['Utils', 'Notification']
+).controller('SettingsCtrl', function SettingsCtrl($scope, Utils, Notification) {
     $scope.timeFormats =
         [
             { name: '24-hour (14:00)',
@@ -28,5 +28,15 @@ angular.module(
         $scope.timeStartHalfRange.push(idx, idx+0.5);
         $scope.timeFinishHalfRange.push(idx+0.5, idx+1.0);
     });
+
+    $scope.notificationFreqChoices = [
+        {name: 'Half-hour', freq: 30},
+        {name: 'Each hour', freq: 60}
+    ];
+
+    function updateNotificationsStatus() {
+        $scope.notificationsStatus = Notification.getStatus();
+    }
+    updateNotificationsStatus();
 
 });
