@@ -110,11 +110,14 @@ angular.module(
     
     function calcSummary() {
         $scope.summary = [];
+        $scope.taskSummary = [];
+        angular.forEach($scope.day.tasks, function(t) { $scope.taskSummary.push(0); });
         var dayTot = 0;
         Utils.forRange(0, 24*2-1, function(i) {
             var hourTot = 0;
-            angular.forEach($scope.day.tasks, function(t) {
+            angular.forEach($scope.day.tasks, function(t,tIdx) {
                     hourTot += t.marks[i];
+                    $scope.taskSummary[tIdx] += t.marks[i]/4;
                 }
             );
             $scope.summary.push(hourTot);
@@ -124,11 +127,13 @@ angular.module(
     }
     calcSummary();
     
-    $scope.changeMark = function(task,idx) {
-        var oldV = task.marks[idx],
+    $scope.changeMark = function(taskIdx,hourIdx) {
+        var task = $scope.day.tasks[taskIdx],
+            oldV = task.marks[hourIdx],
             newV = (oldV===0) ? 2 : oldV-1;
-        task.marks[idx] = newV;
-        $scope.summary[idx] += newV - oldV;
+        task.marks[hourIdx] = newV;
+        $scope.summary[hourIdx] += newV - oldV;
+        $scope.taskSummary[taskIdx] += (newV - oldV)/4;
         $scope.day.total += (newV - oldV)/4;
     };
 
@@ -144,6 +149,7 @@ angular.module(
             newMarks.push(0);
         }
         $scope.day.tasks.push( newTask );
+        $scope.taskSummary.push(0);
     };
 }
 );

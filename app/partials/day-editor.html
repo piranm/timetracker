@@ -10,8 +10,10 @@
 		</colgroup>
 		<thead>
 			<tr	>
-				<th colspan="2">{{date | date:'EEE dd-MMM-yyyy'}}</th>
-				<th ng-click="addBefore()" class="button">[&lt;]</th>
+				<th colspan="3">
+					{{date | date:'EEE dd-MMM-yyyy'}}
+					<div style="float:right;" ng-click="addBefore()" class="button">[&lt;]</div>
+				</th>
 				<td ng-repeat="i in showRange" 
 					class="hourcell"
 					ng-class-even="'even'"
@@ -23,9 +25,9 @@
 		<tbody>
 			<tr ng-repeat="t in day.tasks">
 				<th colspan="2"><span ng-click="removeTask($index)" class="button">[X]</span><input type="text" ng-model="t.task" /></th>
-				<th>{{t.total}} hrs</th>
+				<th style="white-space: nowrap; text-align:right;">{{taskSummary[$index] | fixedSizeHours}}hrs</th>
 				<td ng-repeat="i in showRange" 
-					ng-click="changeMark(t,i,$event)" 
+					ng-click="changeMark($parent.$index,i,$event)" 
 					class="markcell"
 					ng-class-even="'even'"
 						>{{t.marks[i] | mark}}</td>

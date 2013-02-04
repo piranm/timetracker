@@ -150,11 +150,13 @@ describe('dayControllers', function() {
         };
         makeCtrl();
         expect(scope.summary).toEqual(repeat(48,0));
+        expect(scope.taskSummary).toEqual([]);
         expect(scope.day.total).toEqual(0);
 
         scope.addTask();
         expect(scope.day.tasks.length).toBe(1);
         expect(scope.summary).toEqual(repeat(48,0));
+        expect(scope.taskSummary).toEqual([0]);
         expect(scope.day.total).toEqual(0);
       });
       it('to sum up tasks', function () {
@@ -167,6 +169,7 @@ describe('dayControllers', function() {
         };
         makeCtrl();
         expect(scope.summary).toEqual([1,4,1].concat(repeat(45,0)));
+        expect(scope.taskSummary).toEqual([0.75,0.75]);
         expect(scope.day.total).toEqual(1.5);
       });
       it('to change when mark changed', function () {
@@ -178,10 +181,12 @@ describe('dayControllers', function() {
         };
         makeCtrl();
         expect(scope.summary).toEqual([1,2].concat(repeat(46,0)));
+        expect(scope.taskSummary).toEqual([0.75]);
         expect(scope.day.total).toEqual(0.75);
 
-        scope.changeMark(scope.day.tasks[0],1);
+        scope.changeMark(0,1);
         expect(scope.summary).toEqual([1,1].concat(repeat(46,0)));
+        expect(scope.taskSummary).toEqual([0.5]);
         expect(scope.day.total).toEqual(0.5);
       });
       it('to change if tasks removed', function () {
@@ -194,10 +199,12 @@ describe('dayControllers', function() {
         };
         makeCtrl();
         expect(scope.summary).toEqual([1,4,1].concat(repeat(45,0)));
+        expect(scope.taskSummary).toEqual([0.75,0.75]);
         expect(scope.day.total).toEqual(1.5);
 
         scope.removeTask(1);
         expect(scope.summary).toEqual([1,2,0].concat(repeat(45,0)));
+        expect(scope.taskSummary).toEqual([0.75]);
         expect(scope.day.total).toEqual(0.75);
       });
     });

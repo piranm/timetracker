@@ -60,4 +60,19 @@ angular.module('trackFilters', []).
 			return out;
 		};
 	}
+).filter('fixedSizeHours',function() {
+		return function(input) {
+			var out = input.toString();
+			if (out.indexOf('.') === -1) {
+				out = out + '.0';
+			}
+			if (out.indexOf('.') < 2) {
+				out = '\xA0' + out;
+			}
+			while (out.length < 5) {
+				out = out + '\xA0';
+			}
+			return out;
+		};
+	}
 );

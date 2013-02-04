@@ -63,7 +63,19 @@ describe('filter', function() {
 			expect(choiceFilter(3,'>3|something')).toBe('something');
 			expect(choiceFilter(4,'>3|something')).toBe('something');
 		}));
-		
+	});
+
+	describe('fixedSizeHours', function() {
+		it('should format correctly', inject(function(fixedSizeHoursFilter) {
+			expect(fixedSizeHoursFilter(0)).toBe('\xA00.0\xA0');
+			expect(fixedSizeHoursFilter(10)).toBe('10.0\xA0');
+
+			expect(fixedSizeHoursFilter(0.5)).toBe('\xA00.5\xA0');
+			expect(fixedSizeHoursFilter(10.5)).toBe('10.5\xA0');
+
+			expect(fixedSizeHoursFilter(0.75)).toBe('\xA00.75');
+			expect(fixedSizeHoursFilter(10.75)).toBe('10.75');
+		}));
 	});
 
 });
