@@ -4,14 +4,21 @@ A simple tool to make it quick and easy to record your time. At the end of the w
 
 A demo of this project is at http://piranm.github.com/timetracker/
 
-STATUS: Very much **In Development**
+STATUS: **Still In Development** (pre-Alpha)
 
 NOTE: This is not my idea, see History below.
 
 # Overview
 
-To use... wait until it's a bit more finished.
+The website presents a Time Grid for each day where you can record time spent on tasks:
 
+![Example Time Grid](https://raw.github.com/piranm/timetracker/master/app/img/example_day.png)
+
+Clicking in the grid once records half-an-hour.
+
+The data is stored locally on your computer, and the website works while you're off-line. You can export your data to Excel.
+
+Go to http://piranm.github.com/timetracker/ and have a play.
 
 # Development
 
