@@ -28,28 +28,42 @@ describe('dayControllers', function() {
   }
 
   describe('DayCtrl', function () {
-    var scope, ctrl, makeCtrl;
+    var scope, element, makeElement;
 
-    beforeEach(inject(function($rootScope, $controller) {
+    beforeEach(inject(function($rootScope, $compile) {
       scope = $rootScope.$new();
-      makeCtrl = function() {
-        ctrl = $controller('DayCtrl', {$scope: scope});
+      makeElement = function() {
+        element = $compile('<div day-view="forDate"></div>')(scope);
       };
     }));
 
+    it("should open if created on today", inject(function (Utils) {
+      scope.forDate = new Utils.SimpleDate(2,1,2013);
+      scope.today = new Utils.SimpleDate(2,1,2013);
+      makeElement();
+      expect(element.scope().dayOpen).toBe(true);
+    }));
+
     it("should open if date changes to it's date", inject(function (Utils) {
-      scope.date = new Utils.SimpleDate(2,1,2013);
-      scope.dayOpen = false;
-      makeCtrl();
-      expect(scope.dayOpen).toBe(false);
+      scope.forDate = new Utils.SimpleDate(2,1,2013);
+      scope.today = new Utils.SimpleDate(20,12,2013);
+      makeElement();
+      expect(element.scope().dayOpen).toBe(false);
 
       var wrongDate = new Utils.SimpleDate(1,1,2013);
       scope.$broadcast('dateChange', wrongDate);
-      expect(scope.dayOpen).toBe(false);
+      expect(element.scope().dayOpen).toBe(false);
 
       var rightDate = new Utils.SimpleDate(2,1,2013);
       scope.$broadcast('dateChange', rightDate);
-      expect(scope.dayOpen).toBe(true);
+      expect(element.scope().dayOpen).toBe(true);
+    }));
+
+    it("should set id to date", inject(function (Utils) {
+      scope.forDate = new Utils.SimpleDate(2,1,2013);
+      scope.today = new Utils.SimpleDate(2,1,2013);
+      makeElement();
+      expect(element.attr('id')).toEqual('day_20130102');
     }));
 
   });

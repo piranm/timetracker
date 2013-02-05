@@ -45,8 +45,8 @@ describe('Time Tracker app', function() {
 			input('debugDay').enter("09");
 			element('#debugTick').click();
 			expect(element('.editDate').count()).toBe(2);
-			//xexpect(element('.editDate:nth-of-type(1)').text()).toShowText('Tue 08-Jan-2013');
-			//xexpect(element('.editDate:nth-of-type(2)').text()).toShowText('Wed 09-Jan-2013');
+			expect(element('#day_20130108 .editDate').text()).toShowText('Tue 08-Jan-2013');
+			expect(element('#day_20130109 .editDate').text()).toShowText('Wed 09-Jan-2013');
 		});
 
 	});

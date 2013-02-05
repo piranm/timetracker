@@ -172,7 +172,7 @@ angular.module(
     $scope.days = [];
     for (var d = 0 ; d < 7 ; d++) {
         var dayDate = $scope.startOfWeek.addDays(d);
-        $scope.days.push( {dayDate: dayDate, dayOpen: dayDate.equals($scope.today) });
+        $scope.days.push( {dayDate: dayDate });
     }
     $scope.endOfWeek = $scope.days[$scope.days.length-1].dayDate;
     $scope.weekNumber = $scope.startOfWeek.weekNumber();

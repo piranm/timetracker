@@ -5,15 +5,23 @@
 
 angular.module(
     'DayControllers', ['Storage','Utils']
-).controller('DayCtrl', function DayCtrl($scope, Storage) {
-    $scope.day = Storage.getDayRecord($scope.date);
-    $scope.$watch('day', function(newValue) { Storage.setDayRecord($scope.date,newValue); }, angular.equals);
+).directive('dayView', function DayCtrl(Storage) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            scope.date = scope.$eval(attrs.dayView);
+            scope.dayOpen = scope.date.equals(scope.today);
+            element.attr('id','day_'+scope.date.format('yyyyMMdd'));
+            scope.day = Storage.getDayRecord(scope.date);
+            scope.$watch('day', function(newValue) { Storage.setDayRecord(scope.date,newValue); }, angular.equals);
 
-    $scope.$on('dateChange', function (event, newDate) {
-        if ($scope.date.equals(newDate)) {
-            $scope.dayOpen = true;
+            scope.$on('dateChange', function (event, newDate) {
+                if (scope.date.equals(newDate)) {
+                    scope.dayOpen = true;
+                }
+            });
         }
-    });
+    };
 }
 
 ).controller('DayEditorCtrl', function DayEditorCtrl($scope, Utils) {
