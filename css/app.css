@@ -13,6 +13,11 @@ h1 {
   border-bottom: 1px solid gray;
 }
 
+a {
+    color: #c0c000;
+    text-decoration: underline;
+}
+
 /** Weeks **/
 .weekDays {
     padding-left: 1em;
@@ -47,7 +52,7 @@ h1 {
 }
 .navbar-fixed-bottom{ bottom: 0; }
 
-.navbar-fixed-top span {
+.navbar-fixed-top .nameTitle {
     font-size: x-large;
     padding-left: 1em;
     padding-top: 0;
@@ -71,7 +76,7 @@ h1 {
     list-style: none;
 }
 
-.navbar-fixed-top li {
+.optButtonsList li {
     display: inline;
     border: 1px solid white;
     padding-left: 1em;
@@ -81,7 +86,7 @@ h1 {
 	cursor: pointer;
 }
 
-.navbar-fixed-top li.selected {
+.optButtonsList .selected {
     border-bottom: 1px solid #777;
     background-color: #777;
 	background: -moz-linear-gradient(left, #999, #777);
@@ -101,12 +106,15 @@ h1 {
 	display: block;
 }
 .dropdown-menu {
+    height: 30em;
+    max-width: 60em;
     position: absolute;
     top: 100%;
     right:0;
     z-index:2000;
     display: none;
     padding: 1em;
+    padding-bottom:10px;
     margin-top:-0.5em;
     margin-bottom: 2em;
     margin-left: 1em;
@@ -121,6 +129,15 @@ h1 {
     box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
     *border-right-width:2px;
     *border-bottom-width:2px;
+}
+
+.dropdown-menu-contents {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 1em;
+}
+.helpText img {
+    border: 3px solid #888;
 }
 
 
@@ -152,7 +169,7 @@ h1 {
 	clear: both;
 }
 p {
-	margin: 4px 0px;
+	margin: 4px 0;
 }
 label {
     white-space: nowrap;
@@ -183,7 +200,7 @@ input[type="checkbox"] {
     border-right: 1px solid white;
 }
 
-.markcell, .summarycell { 
+td.markcell, td.summarycell { 
 	vertical-align: middle; 
 	text-align: center; 
 }
