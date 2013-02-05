@@ -8,6 +8,12 @@ angular.module(
 ).controller('DayCtrl', function DayCtrl($scope, Storage) {
     $scope.day = Storage.getDayRecord($scope.date);
     $scope.$watch('day', function(newValue) { Storage.setDayRecord($scope.date,newValue); }, angular.equals);
+
+    $scope.$on('dateChange', function (event, newDate) {
+        if ($scope.date.equals(newDate)) {
+            $scope.dayOpen = true;
+        }
+    });
 }
 
 ).controller('DayEditorCtrl', function DayEditorCtrl($scope, Utils) {

@@ -5,7 +5,7 @@
 
 angular.module(
     'AppControllers', ['Utils','Storage','Notification']
-).controller('AppCtrl', function AppCtrl($scope,Utils,Storage,$timeout,Notification) {
+).controller('AppCtrl', function AppCtrl($scope,Utils,Storage,$timeout,Notification,$location) {
 
     $scope.settings = {
         name: 'Time Tracker',
@@ -32,7 +32,17 @@ angular.module(
     }
     $scope.$watch('settings', changeSettings, angular.equals);
 
-    $scope.today = $scope.today || Utils.SimpleDate.fromJsDate(new Date()); // allow debug injection of date
+    var nowDate = new Date();
+    var debugToday = $location.search().debugToday;
+    if (debugToday) {
+        $scope.debug = true;
+        nowDate.setDate(parseInt(debugToday.substring(0,2),10));
+        nowDate.setMonth(parseInt(debugToday.substring(2,4),10)-1);
+        nowDate.setFullYear(parseInt(debugToday.substring(4,8),10));
+    }
+
+    $scope.today = $scope.today || Utils.SimpleDate.fromJsDate(nowDate); // allow debug injection of date
+
     var weekStartDelta = $scope.today.dayOfWeek()-1;
     if (weekStartDelta < 0 ) {
         weekStartDelta += 7;
@@ -66,7 +76,15 @@ angular.module(
         var now = debugTime || new Date();
         higlightCurrentTime(now);
         showNotification(now);
+        showCurrentDay(now);
         waitForHalfHour(now);
+    }
+    function showCurrentDay(now) {
+        var nowDate = Utils.SimpleDate.fromJsDate(now);
+        if (!$scope.today.equals(nowDate)) {
+            $scope.today = nowDate;
+            $scope.$broadcast('dateChange', $scope.today);
+        }
     }
     function higlightCurrentTime(now) {
         var nowClass = 'now-'+now.getHours()+(now.getMinutes() >= 30 ? 'h':'');
@@ -77,11 +95,12 @@ angular.module(
     }
     var tickTimeout;
     function waitForHalfHour(now) {
+        if ($scope.debug) { return; }
         var minutes = now.getMinutes() % 30;
         var seconds = (60 - now.getSeconds()) + 60*(30 - minutes - 1);
-        tickTimeout = $timeout(halfHourAction, seconds*1000, false);
+        tickTimeout = window.setTimeout(halfHourAction, seconds*1000);
     }
-    $scope.$on('$destroy', function () { $timeout.cancel(tickTimeout); });
+    $scope.$on('$destroy', function () { window.cancelTimeout(tickTimeout); });
 
     function notificationClick() {
         window.focus();
@@ -136,7 +155,7 @@ angular.module(
     }
     $scope.isInWorkHours = isInWorkHours; // for testing
 
-    halfHourAction();
+    halfHourAction(nowDate);
     $scope.halfHourAction = halfHourAction;
     
 }).controller('TopNavCtrl', function TopNavCtrl($scope) {
@@ -153,7 +172,7 @@ angular.module(
     $scope.days = [];
     for (var d = 0 ; d < 7 ; d++) {
         var dayDate = $scope.startOfWeek.addDays(d);
-        $scope.days.push( {dayDate: dayDate, dayOpen: dayDate.isToday() });
+        $scope.days.push( {dayDate: dayDate, dayOpen: dayDate.equals($scope.today) });
     }
     $scope.endOfWeek = $scope.days[$scope.days.length-1].dayDate;
     $scope.weekNumber = $scope.startOfWeek.weekNumber();

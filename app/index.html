@@ -12,12 +12,17 @@
 	<script src="js/storage.js"></script>
 	<script src="js/notification.js"></script>
 	<script src="js/settingsControllers.js"></script>
+	<script src="js/debugControllers.js"></script>
 </head>
 <body ng-controller="AppCtrl">
 
 	<div ng-include="'partials/top-nav.html'"></div>
 
 	<div class="main">
+		<div ng-switch on="debug">
+			<div ng-switch-when="true" ng-include="'partials/debug.html'"></div>
+		</div>
+
 		<div id="workHoursContainer">
 			<div id ="currentTimeContainer">
 
@@ -42,7 +47,7 @@
 					<div class="weekContainer" ng-init="startOfWeek=w.start">
 						<div ng-controller="WeekCtrl">
 
-							<p>
+							<p class="weekTitle">
 								Week {{weekNumber}} - 
 									{{startOfWeek | date:'dd-MMM'}} to {{endOfWeek | date:'dd-MMM-yyyy'}}
 							</p>

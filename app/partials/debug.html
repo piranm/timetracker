@@ -1,0 +1,9 @@
+<div id="debug" style="border: 2px solid red" ng-controller="DebugCtrl">
+	<b>Debug:</b>
+	Day:    <input type="text" ng-model="debugDay"    id="debugDay"    style="width: 2em;" />
+	Month:  <input type="text" ng-model="debugMonth"  id="debugMonth"  style="width: 2em;" />
+	Year:   <input type="text" ng-model="debugYear"   id="debugYear"   style="width: 4em;" />
+	Hour:   <input type="text" ng-model="debugHour"   id="debugHour"   style="width: 2em;" />
+	Minute: <input type="text" ng-model="debugMinute" id="debugMinute" style="width: 2em;" />
+	<button ng-click="debugTick()" id="debugTick">Tick</button>
+</div>

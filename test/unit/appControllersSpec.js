@@ -1,5 +1,5 @@
 /* Jasmine settings */
-/*global describe:false, beforeEach:false, it:false, expect:false */
+/*global describe:false, beforeEach:false, it:false, expect:false, spyOn:false */
 /*global module:false, inject:false */
 
 'use strict';
@@ -29,6 +29,21 @@ describe('appControllers', function() {
         }
       });
     }));
+
+    describe('debugSettings', function () {
+      it("should not be in debug mode by default", function () {
+        makeCtrl();
+        expect(scope.debug).not.toBeTruthy();
+      });
+      it("should pick up debug today", inject(function ($location) {
+        $location.search('debugToday','07012013');
+        makeCtrl();
+        expect(scope.debug).toBeTruthy();
+        expect(scope.today.format('dd-MMM-yyyy')).toEqual('07-Jan-2013');
+        expect(scope.weeks.length).toBe(1);
+        expect(scope.weeks[0].start).toEqualDate(7,1,2013);
+      }));
+    });
 
     describe('notification', function () {
       var dayRecord;
@@ -146,6 +161,20 @@ describe('appControllers', function() {
       });
     });
 
+    describe('date changes', function () {
+      it("should broadcast when the date changes within week", function () {
+        scope.today = new SimpleDate(7,1,2013);
+        makeCtrl();
+        spyOn(scope,'$broadcast');
+
+        scope.halfHourAction(new Date(2013,0,8,10,0,0));
+        expect(scope.$broadcast.calls.length).toBe(1);
+        expect(scope.$broadcast.calls[0].args[0]).toEqual('dateChange');
+        expect(scope.$broadcast.calls[0].args[1].equals(new SimpleDate(8,1,2013))).toBeTruthy();
+        expect(scope.weeks.length).toBe(1);
+        expect(scope.today.equals(new SimpleDate(8,1,2013))).toBeTruthy();
+      });
+    });
   });
 
 });

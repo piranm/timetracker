@@ -27,6 +27,33 @@ describe('dayControllers', function() {
     return a;
   }
 
+  describe('DayCtrl', function () {
+    var scope, ctrl, makeCtrl;
+
+    beforeEach(inject(function($rootScope, $controller) {
+      scope = $rootScope.$new();
+      makeCtrl = function() {
+        ctrl = $controller('DayCtrl', {$scope: scope});
+      };
+    }));
+
+    it("should open if date changes to it's date", inject(function (Utils) {
+      scope.date = new Utils.SimpleDate(2,1,2013);
+      scope.dayOpen = false;
+      makeCtrl();
+      expect(scope.dayOpen).toBe(false);
+
+      var wrongDate = new Utils.SimpleDate(1,1,2013);
+      scope.$broadcast('dateChange', wrongDate);
+      expect(scope.dayOpen).toBe(false);
+
+      var rightDate = new Utils.SimpleDate(2,1,2013);
+      scope.$broadcast('dateChange', rightDate);
+      expect(scope.dayOpen).toBe(true);
+    }));
+
+  });
+
   describe('DayEditorCtrl', function() {
     var scope, ctrl, makeCtrl;
 
@@ -241,5 +268,7 @@ describe('dayControllers', function() {
     });
 
   });
+
+
 
 });
