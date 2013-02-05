@@ -5,9 +5,26 @@
 
 angular.module(
     'DayControllers', ['Storage','Utils']
-).controller('DayCtrl', function DayCtrl($scope, Storage) {
-    $scope.day = Storage.getDayRecord($scope.date);
-    $scope.$watch('day', function(newValue) { Storage.setDayRecord($scope.date,newValue); }, angular.equals);
+).directive('dayView', function DayCtrl(Storage, $timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            scope.date = scope.$eval(attrs.dayView);
+            scope.dayOpen = scope.date.equals(scope.today);
+            element.attr('id','day_'+scope.date.format('yyyyMMdd'));
+            scope.day = Storage.getDayRecord(scope.date);
+            scope.$watch('day', function(newValue) { Storage.setDayRecord(scope.date,newValue); }, angular.equals);
+
+            scope.$on('showDate', function (event, newDate) {
+                if (scope.date.equals(newDate)) {
+                    if (!scope.dayOpen) {
+                        scope.dayOpen = true;
+                        $timeout(function() {element[0].scrollIntoView();}, 1, false);
+                    }
+                }
+            });
+        }
+    };
 }
 
 ).controller('DayEditorCtrl', function DayEditorCtrl($scope, Utils) {

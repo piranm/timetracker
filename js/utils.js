@@ -49,7 +49,10 @@ angular.module(
 		return out;
 	};
 	SimpleDate.prototype.dayOfWeek = function () {
-		return new Date(this.year,this.month-1,this.day).getDay();
+		return this.toJsDate().getDay();
+	};
+	SimpleDate.prototype.toJsDate = function () {
+		return new Date(this.year,this.month-1,this.day);
 	};
 	SimpleDate.prototype.addDays = function (delta) {
 		var jsDate = new Date(this.year,this.month-1,this.day+delta);

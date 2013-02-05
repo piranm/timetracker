@@ -12,12 +12,17 @@
 	<script src="js/storage.js"></script>
 	<script src="js/notification.js"></script>
 	<script src="js/settingsControllers.js"></script>
+	<script src="js/debugControllers.js"></script>
 </head>
 <body ng-controller="AppCtrl">
 
 	<div ng-include="'partials/top-nav.html'"></div>
 
 	<div class="main">
+		<div ng-switch on="debug">
+			<div ng-switch-when="true" ng-include="'partials/debug.html'"></div>
+		</div>
+
 		<div id="workHoursContainer">
 			<div id ="currentTimeContainer">
 
@@ -42,7 +47,7 @@
 					<div class="weekContainer" ng-init="startOfWeek=w.start">
 						<div ng-controller="WeekCtrl">
 
-							<p>
+							<p class="weekTitle">
 								Week {{weekNumber}} - 
 									{{startOfWeek | date:'dd-MMM'}} to {{endOfWeek | date:'dd-MMM-yyyy'}}
 							</p>
@@ -50,18 +55,16 @@
 							<div class="weekDays">
 
 								<div ng-repeat="d in days">
-								  	<div ng-init="dayOpen=d.dayOpen; date=d.dayDate">
-									  	<div ng-controller="DayCtrl">
-											<p ng-click="dayOpen = !dayOpen" class="button">
-												[{{dayOpen | choice:'true|-|+'}}]
-												{{date | date:'EEE dd-MMM-yyyy'}} - {{day.total}}&nbsp;hrs 
-												{{day.comment | choice:'||-'}} {{day.comment}}
-											</p>
-											<div ng-switch on="dayOpen" >
-												<div ng-switch-when="true">
-													<div ng-include="'partials/day-editor.html'"></div>
-											  	</div>
-											</div>
+								  	<div day-view="d.dayDate">
+										<p ng-click="dayOpen = !dayOpen" class="button">
+											[{{dayOpen | choice:'true|-|+'}}]
+											{{date | date:'EEE dd-MMM-yyyy'}} - {{day.total}}&nbsp;hrs 
+											{{day.comment | choice:'||-'}} {{day.comment}}
+										</p>
+										<div ng-switch on="dayOpen" >
+											<div ng-switch-when="true">
+												<div ng-include="'partials/day-editor.html'"></div>
+										  	</div>
 										</div>
 									</div>
 								</div>
