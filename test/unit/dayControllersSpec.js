@@ -51,11 +51,11 @@ describe('dayControllers', function() {
       expect(element.scope().dayOpen).toBe(false);
 
       var wrongDate = new Utils.SimpleDate(1,1,2013);
-      scope.$broadcast('dateChange', wrongDate);
+      scope.$broadcast('showDate', wrongDate);
       expect(element.scope().dayOpen).toBe(false);
 
       var rightDate = new Utils.SimpleDate(2,1,2013);
-      scope.$broadcast('dateChange', rightDate);
+      scope.$broadcast('showDate', rightDate);
       expect(element.scope().dayOpen).toBe(true);
     }));
 

@@ -28,7 +28,10 @@ angular.module(
             var baseHour = Math.floor(h);
             workClasses = workClasses + 'work-'+baseHour+(baseHour !== h ? 'h':'')+' ';
         }
-        document.getElementById('workHoursContainer').setAttribute('class',workClasses);
+        var workHoursContainer = document.getElementById('workHoursContainer');
+        if (workHoursContainer) {
+            workHoursContainer.setAttribute('class',workClasses);
+        }
     }
     $scope.$watch('settings', changeSettings, angular.equals);
 
@@ -41,7 +44,12 @@ angular.module(
         nowDate.setFullYear(parseInt(debugToday.substring(4,8),10));
     }
 
-    $scope.today = $scope.today || Utils.SimpleDate.fromJsDate(nowDate); // allow debug injection of date
+    if ($scope.today) {
+        // allow debug injection of date
+        nowDate = $scope.today.toJsDate();
+    } else {
+        $scope.today = Utils.SimpleDate.fromJsDate(nowDate);
+    }
 
     var weekStartDelta = $scope.today.dayOfWeek()-1;
     if (weekStartDelta < 0 ) {
@@ -81,9 +89,14 @@ angular.module(
     }
     function showCurrentDay(now) {
         var nowDate = Utils.SimpleDate.fromJsDate(now);
+        var nextWeekDate = $scope.weeks[$scope.weeks.length-1].start.addDays(7);
+        while (!nextWeekDate.after(nowDate)) {
+            $scope.weeks.push({start:nextWeekDate});
+            nextWeekDate = nextWeekDate.addDays(7);
+        }
         if (!$scope.today.equals(nowDate)) {
             $scope.today = nowDate;
-            $scope.$broadcast('dateChange', $scope.today);
+            $timeout(function() {$scope.$broadcast('showDate', $scope.today);}, 1, true);
         }
     }
     function higlightCurrentTime(now) {
@@ -102,9 +115,10 @@ angular.module(
     }
     $scope.$on('$destroy', function () { window.cancelTimeout(tickTimeout); });
 
-    function notificationClick() {
+    function notificationClick(evt) {
         window.focus();
-        this.cancel();
+        $timeout(function() {$scope.$broadcast('showDate', $scope.today);}, 1, true);
+        evt.srcElement.cancel();
     }
     function showNotification(now) {
         if ($scope.settings.notificationEnabled) {
@@ -158,6 +172,7 @@ angular.module(
     halfHourAction(nowDate);
     $scope.halfHourAction = halfHourAction;
     
+
 }).controller('TopNavCtrl', function TopNavCtrl($scope) {
     $scope.showInDropdown = '';
     $scope.showDropdown = function(item, $event) {
@@ -168,6 +183,8 @@ angular.module(
         }
         $event.stopPropagation();
     };
+
+
 }).controller('WeekCtrl', function WeekCtrl($scope, Utils) {
     $scope.days = [];
     for (var d = 0 ; d < 7 ; d++) {

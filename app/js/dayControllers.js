@@ -5,7 +5,7 @@
 
 angular.module(
     'DayControllers', ['Storage','Utils']
-).directive('dayView', function DayCtrl(Storage) {
+).directive('dayView', function DayCtrl(Storage, $timeout) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -15,9 +15,12 @@ angular.module(
             scope.day = Storage.getDayRecord(scope.date);
             scope.$watch('day', function(newValue) { Storage.setDayRecord(scope.date,newValue); }, angular.equals);
 
-            scope.$on('dateChange', function (event, newDate) {
+            scope.$on('showDate', function (event, newDate) {
                 if (scope.date.equals(newDate)) {
-                    scope.dayOpen = true;
+                    if (!scope.dayOpen) {
+                        scope.dayOpen = true;
+                        $timeout(function() {element[0].scrollIntoView();}, 1, false);
+                    }
                 }
             });
         }

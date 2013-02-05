@@ -162,18 +162,36 @@ describe('appControllers', function() {
     });
 
     describe('date changes', function () {
-      it("should broadcast when the date changes within week", function () {
+      it("should broadcast when the date changes within week", inject(function ($timeout) {
         scope.today = new SimpleDate(7,1,2013);
         makeCtrl();
         spyOn(scope,'$broadcast');
 
         scope.halfHourAction(new Date(2013,0,8,10,0,0));
+        expect(scope.$broadcast.calls.length).toBe(0);
+
+        $timeout.flush();
         expect(scope.$broadcast.calls.length).toBe(1);
-        expect(scope.$broadcast.calls[0].args[0]).toEqual('dateChange');
+        expect(scope.$broadcast.calls[0].args[0]).toEqual('showDate');
         expect(scope.$broadcast.calls[0].args[1].equals(new SimpleDate(8,1,2013))).toBeTruthy();
         expect(scope.weeks.length).toBe(1);
         expect(scope.today.equals(new SimpleDate(8,1,2013))).toBeTruthy();
-      });
+      }));
+      it("should add weeks when the date changes beyond last week", inject(function ($timeout) {
+        scope.today = new SimpleDate(7,1,2013);
+        makeCtrl();
+        spyOn(scope,'$broadcast');
+
+        scope.halfHourAction(new Date(2013,0,21,10,0,0));
+        expect(scope.$broadcast.calls.length).toBe(0);
+
+        $timeout.flush();
+        expect(scope.$broadcast.calls.length).toBe(1);
+        expect(scope.$broadcast.calls[0].args[0]).toEqual('showDate');
+        expect(scope.$broadcast.calls[0].args[1].equals(new SimpleDate(21,1,2013))).toBeTruthy();
+        expect(scope.weeks.length).toBe(3);
+        expect(scope.today.equals(new SimpleDate(21,1,2013))).toBeTruthy();
+      }));
     });
   });
 

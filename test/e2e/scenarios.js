@@ -49,6 +49,12 @@ describe('Time Tracker app', function() {
 			expect(element('#day_20130109 .editDate').text()).toShowText('Wed 09-Jan-2013');
 		});
 
+		it("should open new week on new week's day tick", function () {
+			input('debugDay').enter("15");
+			element('#debugTick').click();
+			expect(element('#day_20130115 .editDate').text()).toShowText('Tue 15-Jan-2013');
+		});
+
 	});
 
 });
