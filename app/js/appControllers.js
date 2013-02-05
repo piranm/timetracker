@@ -33,7 +33,7 @@ angular.module(
             workHoursContainer.setAttribute('class',workClasses);
         }
     }
-    $scope.$watch('settings', changeSettings, angular.equals);
+    $scope.$watch('settings', changeSettings, true);
 
     var nowDate = new Date();
     var debugToday = $location.search().debugToday;

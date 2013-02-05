@@ -13,7 +13,7 @@ angular.module(
             scope.dayOpen = scope.date.equals(scope.today);
             element.attr('id','day_'+scope.date.format('yyyyMMdd'));
             scope.day = Storage.getDayRecord(scope.date);
-            scope.$watch('day', function(newValue) { Storage.setDayRecord(scope.date,newValue); }, angular.equals);
+            scope.$watch('day', function(newValue) { Storage.setDayRecord(scope.date,newValue); }, true);
 
             scope.$on('showDate', function (event, newDate) {
                 if (scope.date.equals(newDate)) {
