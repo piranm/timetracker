@@ -22,13 +22,17 @@ Go to http://piranm.github.com/timetracker/ and have a play.
 
 # Development
 
+Development is using http://yeoman.io/, so many command lines are from there.
+
 In one terminal, start the dev server:
 
-    node scripts/web-server.js
+    yeoman server
 
 In another terminal, run the tests:
 
-    ./scripts/test.sh
+    yeoman test
+
+To run the e2e (End-To-End) tests, go to: http://localhost:3501/test/runner.html
 
 ## References
 

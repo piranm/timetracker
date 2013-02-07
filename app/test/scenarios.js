@@ -10,9 +10,9 @@ angular.scenario.matcher('toShowText', function(expected) {
 
 describe('Time Tracker app', function() {
 
-	xdescribe('settings', function() {
+	describe('settings', function() {
 		beforeEach(function() {
-			browser().navigateTo('../../app/index.html#?debugToday=08012013');
+			browser().navigateTo('../index.html#?debugToday=08012013');
 		});
 
 		it('should have three nav buttons', function () {
@@ -58,9 +58,9 @@ describe('Time Tracker app', function() {
 
 	describe('settings', function() {
 		beforeEach(function() {
-			browser().navigateTo('../../app/index.html#?debugToday=08012013');
+			browser().navigateTo('../index.html#?debugToday=08012013');
 			element('#debugClearStorage').click();
-			browser().navigateTo('../../app/index.html#?debugToday=08012013');
+			browser().navigateTo('../index.html#?debugToday=08012013');
 		});
 
 		it('test task csv export', function () {
