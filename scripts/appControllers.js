@@ -16,7 +16,9 @@ angular.module(
         showEnd: 19,
         notificationEnabled: false,
         notificationFrequency: 30,
-        notificationWorkHoursOnly: false
+        notificationWorkHoursOnly: false,
+        exportWhat: 'tasks',
+        exportFormat: 'csv'
     };
     angular.extend($scope.settings, Storage.getSettings());
 
@@ -33,7 +35,7 @@ angular.module(
             workHoursContainer.setAttribute('class',workClasses);
         }
     }
-    $scope.$watch('settings', changeSettings, angular.equals);
+    $scope.$watch('settings', changeSettings, true);
 
     var nowDate = new Date();
     var debugToday = $location.search().debugToday;
@@ -51,11 +53,7 @@ angular.module(
         $scope.today = Utils.SimpleDate.fromJsDate(nowDate);
     }
 
-    var weekStartDelta = $scope.today.dayOfWeek()-1;
-    if (weekStartDelta < 0 ) {
-        weekStartDelta += 7;
-    }
-    var startOfThisWeek = $scope.today.addDays(-weekStartDelta);
+    var startOfThisWeek = $scope.today.startOfWeek();
     $scope.weeks = [{start: startOfThisWeek}];
 
     $scope.showPreviousWeek = function () {

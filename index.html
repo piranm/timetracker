@@ -1,81 +1,106 @@
-<html lang="en" ng-app="timetracker">
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<title>Time Tracker</title>
-	<link rel="stylesheet" href="css/app.css">
-	<link rel="icon" href="img/favicon.ico">
-	<script src="lib/angular/angular.js"></script>
-	<script src="js/filters.js"></script>
-	<script src="js/app.js"></script>
-	<script src="js/appControllers.js"></script>
-	<script src="js/dayControllers.js"></script>
-	<script src="js/utils.js"></script>
-	<script src="js/storage.js"></script>
-	<script src="js/notification.js"></script>
-	<script src="js/settingsControllers.js"></script>
-	<script src="js/debugControllers.js"></script>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="stylesheet" href="styles/main.css"/>
+	<link rel="icon" href="favicon.ico">
 </head>
-<body ng-controller="AppCtrl">
+<body ng-app="timetracker">
 
-	<div ng-include="'partials/top-nav.html'"></div>
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+    
+    <!--[if lt IE 9]>
+        <script src="scripts/vendor/es5-shim.min.js"></script>
+        <script src="scripts/vendor/json3.min.js"></script>
+    <![endif]-->
 
-	<div class="main">
-		<div ng-switch on="debug">
-			<div ng-switch-when="true" ng-include="'partials/debug.html'"></div>
-		</div>
+    <div ng-controller="AppCtrl">
+		<div ng-include="'partials/top-nav.html'"></div>
 
-		<div id="workHoursContainer">
-			<div id ="currentTimeContainer">
+		<div class="main">
+			<div ng-switch on="debug">
+				<div ng-switch-when="true" ng-include="'partials/debug.html'"></div>
+			</div>
 
-				<p class="button" ng-click="showPreviousMonth()">
-					[&lt;&lt;] Previous Month
-				</p>
+			<div id="workHoursContainer">
+				<div id ="currentTimeContainer">
 
-				<p class="button" ng-click="showPreviousWeek()">
-					&nbsp;[&lt;] Previous Week 
-				</p>
+					<p class="button" ng-click="showPreviousMonth()">
+						[&lt;&lt;] Previous Month
+					</p>
 
-				<div ng-switch on="weeks.length" >
-					<div ng-switch-when="1"></div>
-					<div ng-switch-default>
-						<p class="button" ng-click="hideExtraWeeks()">
-							&nbsp;[X] Hide Extra Weeks
-						</p>
-					</div>
-				</div>
+					<p class="button" ng-click="showPreviousWeek()">
+						&nbsp;[&lt;] Previous Week 
+					</p>
 
-				<div ng-repeat="w in weeks">
-					<div class="weekContainer" ng-init="startOfWeek=w.start">
-						<div ng-controller="WeekCtrl">
-
-							<p class="weekTitle">
-								Week {{weekNumber}} - 
-									{{startOfWeek | date:'dd-MMM'}} to {{endOfWeek | date:'dd-MMM-yyyy'}}
+					<div ng-switch on="weeks.length" >
+						<div ng-switch-when="1"></div>
+						<div ng-switch-default>
+							<p class="button" ng-click="hideExtraWeeks()">
+								&nbsp;[X] Hide Extra Weeks
 							</p>
+						</div>
+					</div>
 
-							<div class="weekDays">
+					<div ng-repeat="w in weeks">
+						<div class="weekContainer" ng-init="startOfWeek=w.start">
+							<div ng-controller="WeekCtrl">
 
-								<div ng-repeat="d in days">
-								  	<div day-view="d.dayDate">
-										<p ng-click="dayOpen = !dayOpen" class="button">
-											[{{dayOpen | choice:'true|-|+'}}]
-											{{date | date:'EEE dd-MMM-yyyy'}} - {{day.total}}&nbsp;hrs 
-											{{day.comment | choice:'||-'}} {{day.comment}}
-										</p>
-										<div ng-switch on="dayOpen" >
-											<div ng-switch-when="true">
-												<div ng-include="'partials/day-editor.html'"></div>
-										  	</div>
+								<p class="weekTitle">
+									Week {{weekNumber}} - 
+										{{startOfWeek | date:'dd-MMM'}} to {{endOfWeek | date:'dd-MMM-yyyy'}}
+								</p>
+
+								<div class="weekDays">
+
+									<div ng-repeat="d in days">
+									  	<div day-view="d.dayDate">
+											<p ng-click="dayOpen = !dayOpen" class="button">
+												[{{dayOpen | choice:'true|-|+'}}]
+												{{date | date:'EEE dd-MMM-yyyy'}} - {{day.total}}&nbsp;hrs 
+												{{day.comment | choice:'||-'}} {{day.comment}}
+											</p>
+											<div ng-switch on="dayOpen" >
+												<div ng-switch-when="true">
+													<div ng-include="'partials/day-editor.html'"></div>
+											  	</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
+				</div>
 			</div>
 		</div>
 	</div>
+
+    <script src="scripts/vendor/angular.js"></script>
+
+    <!-- build:js scripts/scripts.js -->
+	<script src="scripts/filters.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/appControllers.js"></script>
+	<script src="scripts/dayControllers.js"></script>
+	<script src="scripts/utils.js"></script>
+	<script src="scripts/storage.js"></script>
+	<script src="scripts/notification.js"></script>
+	<script src="scripts/settingsControllers.js"></script>
+	<script src="scripts/debugControllers.js"></script>
+	<script src="scripts/exportControllers.js"></script>
+	<script src="scripts/tableExport.js"></script>
+    <!-- endbuild -->
 
 </body>
 </html>

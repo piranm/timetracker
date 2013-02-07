@@ -36,8 +36,10 @@
 		
 		<tfoot>
 			<tr	>
-				<th ng-click="addTask()" class="button">[+]</th>
-				<th colspan="2">Summary:</th>
+				<th colspan="3">
+					<span ng-click="addTask()" class="addTask button">[+]</span>
+					<span>Summary:</span>
+				</th>
 				<td 
 					ng-repeat="i in showRange" 
 					class="summarycell"

@@ -5,7 +5,7 @@
 
 angular.module(
     'Storage', ['Utils']
-).service('Storage', function () {
+).service('Storage', function (Utils) {
 
     var localStorage = window.localStorage;
 
@@ -49,6 +49,26 @@ angular.module(
 
         setSettings: function (settings) {
             storeJson('settings', settings);
+        },
+
+        forAllDaysInOrder: function (iter) {
+            var len = localStorage.length;
+            var filter = new RegExp('^'+keyPrefix+'(\\d{4})-(\\d{2})-(\\d{2})$');
+            var keys = [];
+            for (var i = 0 ; i < len ; i++) {
+                var k = localStorage.key(i);
+                if (k.match(filter)) {
+                    keys.push(k);
+                }
+            }
+            keys = keys.sort();
+
+            angular.forEach(keys, function (k) {
+                var parts = k.match(filter);
+                var date = new Utils.SimpleDate(parseInt(parts[3],10),parseInt(parts[2],10),parseInt(parts[1],10));
+                var dayStorage = angular.fromJson(localStorage.getItem(k));
+                iter(date,dayStorage);
+            });
         },
 
         clear: function () {

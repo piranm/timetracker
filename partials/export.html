@@ -1,10 +1,34 @@
-<div>
-	<p>This is where the export options will appear:</p>
-	<p>Export to Excel</p>
-	<p>Export to Jira</p>
-	<p>Export to Google Spreadsheet</p>
-	<p>Export from start of Month</p>
-	<p>Export a week</p>
-	<p>Export from first full work week in month</p>
-	<p>Export form first week to contain a work day in month</p>
+<div ng-controller="ExportCtrl" class="exportTab">
+	<h2>What do you want to download?</h2>
+	<p>
+		<label><input type="radio" name="exportWhat" ng-model="settings.exportWhat" value="tasks" />Tasks</label>
+		<label><input type="radio" name="exportWhat" ng-model="settings.exportWhat" value="days"  />Days</label>
+		<label><input type="radio" name="exportWhat" ng-model="settings.exportWhat" value="weeks" />Weeks</label>
+	</p>
+
+	<h2>What Format?</h2>
+	<p>
+		<label><input type="radio" name="exportFormat" ng-model="settings.exportFormat" value="csv"/>CSV</label>
+		<label><input type="radio" name="exportFormat" ng-model="settings.exportFormat" value="excel" disabled/>Excel (coming soon!)</label>
+	</p>
+
+	<p>
+		<a download-data-as-file="makeDownload()">Export [&gt;&gt;]</a>
+	</p>
+
+	<div ng-switch on="debug">
+		<div ng-switch-when="true">
+			<h2>Debug</h2>
+			<button ng-click="debugExport()" id="debugExport">Debug Export</button>
+			<dl>
+				<dt>debugExportFilename</dt>
+				<dd><span id="debugExportFilename">{{debugExport.filename}}</span></dd>
+				<dt>debugExportMimeType</dt>
+				<dd><span id="debugExportMimeType">{{debugExport.mimeType}}</span></dd>
+				<dt>debugExportData</dt>
+				<dd><textarea ng-model="debugExport.data" id="debugExportData"></textarea></dd>
+			</dl>
+		</div>
+	</div>
+
 </div>
