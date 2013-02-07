@@ -17,7 +17,8 @@ angular.module(
         notificationEnabled: false,
         notificationFrequency: 30,
         notificationWorkHoursOnly: false,
-        exportWhat: 'tasks'
+        exportWhat: 'tasks',
+        exportFormat: 'csv'
     };
     angular.extend($scope.settings, Storage.getSettings());
 

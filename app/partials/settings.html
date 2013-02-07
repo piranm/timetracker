@@ -52,7 +52,6 @@
 				<select ng-model="settings.workEnd" ng-options="t | hour for t in timeFinishHalfRange" >
 				</select>
 			</label>
-			<label>Lunch?</label>
 		</div>
 		<div class="hint">
 			<p>What are your normal working hours?</p>
@@ -77,20 +76,6 @@
 			<p>When the time grid is displayed, what hours do you want shown on it?</p>
 			<p>If you sometimes come in early or work late, then setting this outside your normal working hours makes it quicker to record time there.</p>
 			<p>You can always use the [&lt;] and [&gt;] buttons to show more hours.</p>
-		</div>
-		<br class="clear" />
-	</div>
-
-	<div class="setting">
-		<div class="title">Time Format</div>
-		<div class="entry">
-			<label>Format: 
-				<select ng-model="settings.timeFormat" ng-options="tf.format as tf.name for tf in timeFormats">
-				</select>
-			</label>
-		</div>
-		<div class="hint">
-			<p>What format do you want time shown in?</p>
 		</div>
 		<br class="clear" />
 	</div>
