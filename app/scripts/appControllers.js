@@ -53,11 +53,7 @@ angular.module(
         $scope.today = Utils.SimpleDate.fromJsDate(nowDate);
     }
 
-    var weekStartDelta = $scope.today.dayOfWeek()-1;
-    if (weekStartDelta < 0 ) {
-        weekStartDelta += 7;
-    }
-    var startOfThisWeek = $scope.today.addDays(-weekStartDelta);
+    var startOfThisWeek = $scope.today.startOfWeek();
     $scope.weeks = [{start: startOfThisWeek}];
 
     $scope.showPreviousWeek = function () {

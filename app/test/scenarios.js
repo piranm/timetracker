@@ -91,12 +91,12 @@ describe('Time Tracker app', function() {
 			expect(element(".exportTab input[type='radio'][name='exportFormat']:checked").attr('value')).toBe('csv');
 
 			element(".exportTab input[type='radio'][name='exportWhat'][value='days']").click();
-			element(".exportTab input[type='radio'][name='exportFormat'][value='excel']").click();
+			//element(".exportTab input[type='radio'][name='exportFormat'][value='excel']").click();
 
 			browser().navigateTo('../index.html#?debugToday=08012013');
 			element('.optButtonsList li:nth-of-type(2)').click();
 			expect(element(".exportTab input[type='radio'][name='exportWhat']:checked").attr('value')).toBe('days');
-			expect(element(".exportTab input[type='radio'][name='exportFormat']:checked").attr('value')).toBe('excel');
+			//expect(element(".exportTab input[type='radio'][name='exportFormat']:checked").attr('value')).toBe('excel');
 		});
 
 		it('test task csv export', function () {
@@ -115,6 +115,15 @@ describe('Time Tracker app', function() {
 			expect(element('#debugExportFilename').text()).toBe('timetracker.csv');
 			expect(element('#debugExportMimeType').text()).toBe('text/csv');
 			expect(element('#debugExportData').val()).toBe("\"date\",\"comment\",\"hours\"\n\"07-01-2013\",\"\",0\n\"08-01-2013\",\"\",1.5\n\"09-01-2013\",\"\",0.5\n\"10-01-2013\",\"\",0\n\"11-01-2013\",\"\",0.5\n\"12-01-2013\",\"\",0\n\"13-01-2013\",\"\",0\n");
+		});
+
+		it('test weeks csv export', function () {
+			element(".exportTab input[type='radio'][name='exportWhat'][value='weeks']").click();
+			element(".exportTab input[type='radio'][name='exportFormat'][value='csv']").click();
+			element('#debugExport').click();
+			expect(element('#debugExportFilename').text()).toBe('timetracker.csv');
+			expect(element('#debugExportMimeType').text()).toBe('text/csv');
+			expect(element('#debugExportData').val()).toBe("\"year\",\"weeknum\",\"date\",\"hours\"\n2013,2,\"07-01-2013\",2.5\n");
 		});
 	});
 

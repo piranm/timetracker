@@ -8,7 +8,7 @@ angular.module(
 ).controller('ExportCtrl', function AppCtrl($scope,Utils,Storage,TableExport) {
 
     function createCSV() {
-        var tasksExporter, daysExporter;
+        var tasksExporter, daysExporter, weeksExporter;
         if ($scope.settings.exportWhat === 'tasks') {
             tasksExporter = TableExport.csvExporter();
             tasksExporter.addColumns("date","task","hours","start");
@@ -17,7 +17,20 @@ angular.module(
             daysExporter = TableExport.csvExporter();
             daysExporter.addColumns("date","comment","hours");
         }
+        if ($scope.settings.exportWhat === 'weeks') {
+            weeksExporter = TableExport.csvExporter();
+            weeksExporter.addColumns("year","weeknum","date","hours");
+        }
 
+        var weekInProgress;
+        function addWeekInProgress() {
+            weeksExporter.addRow(
+                weekInProgress.date.year,
+                weekInProgress.date.weekNumber(),
+                weekInProgress.date.format("dd-MM-yyyy"),
+                weekInProgress.hours
+            );
+        }
 
         Storage.forAllDaysInOrder(
             function (date,day) {
@@ -36,8 +49,22 @@ angular.module(
                 if (daysExporter) {
                     daysExporter.addRow(dateForCsv,day.comment,day.total);
                 }
+                if (weeksExporter) {
+                    var startOfWeek = date.startOfWeek();
+                    if (!weekInProgress) {
+                        weekInProgress = {date: startOfWeek, hours:day.total};
+                    } else if (weekInProgress.date.equals(startOfWeek)) {
+                        weekInProgress.hours += day.total;
+                    } else {
+                        addWeekInProgress();
+                        weekInProgress = {date: startOfWeek, hours:day.total};
+                    }
+                }
             }
         );
+        if (weekInProgress) {
+            addWeekInProgress();
+        }
 
         var out = '';
         if (tasksExporter) {
@@ -45,6 +72,9 @@ angular.module(
         }
         if (daysExporter) {
             out = out + daysExporter.toString();
+        }
+        if (weeksExporter) {
+            out = out + weeksExporter.toString();
         }
         return out;
     }

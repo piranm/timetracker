@@ -4,7 +4,7 @@
 /* Settings Controllers */
 
 angular.module(
-    'Utils', []
+	'Utils', []
 ).service('Utils', function () {
 	function zeroPad(num, len) {
 		var out = num.toString();
@@ -90,6 +90,13 @@ angular.module(
 		}
 		var weekNumber = Math.floor((monthStart + this.day - dayOfWeek + 10)/7);
 		return weekNumber;
+	};
+	SimpleDate.prototype.startOfWeek = function() {
+		var weekStartDelta = this.dayOfWeek()-1;
+		if (weekStartDelta < 0 ) {
+			weekStartDelta += 7;
+		}
+		return this.addDays(-weekStartDelta);
 	};
 
 	return {
