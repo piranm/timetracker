@@ -4,8 +4,8 @@
 /*global angular:false */
 
 angular.module(
-    'DayControllers', ['Storage','Utils']
-).directive('dayView', function DayCtrl(Storage, $timeout) {
+    'DayControllers', ['Storage']
+).directive('dayView', ['Storage', '$timeout', function DayCtrl(Storage, $timeout) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -27,7 +27,7 @@ angular.module(
     };
 }
 
-).controller('DayEditorCtrl', function DayEditorCtrl($scope, Utils) {
+]).controller('DayEditorCtrl', ['$scope', 'Utils', function DayEditorCtrl($scope, Utils) {
     function firstHourWorked(day) {
         for (var h = 0 ; h < 24 ; h++) {
             for (var t = 0; t < day.tasks.length; t++) {
@@ -169,4 +169,4 @@ angular.module(
         $scope.taskSummary.push(0);
     };
 }
-);
+]);

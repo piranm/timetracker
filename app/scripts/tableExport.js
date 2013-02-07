@@ -5,7 +5,7 @@
 
 angular.module(
     'TableExport', ['Utils']
-).service('TableExport', function (Utils) {
+).service('TableExport', ['Utils', function (Utils) {
     var EOF = "\r\n";
     function csvSafe(s) {
         switch (typeof s) {
@@ -38,4 +38,5 @@ angular.module(
             return new TableExport();
         }
     };
-});
+}
+]);

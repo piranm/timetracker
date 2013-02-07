@@ -8,3 +8,4 @@ build.xml
 .settings
 .idea/*
 temp
+dist

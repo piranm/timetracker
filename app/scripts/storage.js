@@ -5,7 +5,7 @@
 
 angular.module(
     'Storage', ['Utils']
-).service('Storage', function (Utils) {
+).service('Storage', ['Utils', function (Utils) {
 
     var localStorage = window.localStorage;
 
@@ -75,4 +75,4 @@ angular.module(
             localStorage.clear();
         }
     };
-});
+}]);

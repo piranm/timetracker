@@ -4,7 +4,7 @@
 
 angular.module(
     'SettingsControllers', ['Utils', 'Notification']
-).controller('SettingsCtrl', function SettingsCtrl($scope, Utils, Notification) {
+).controller('SettingsCtrl', ['$scope', 'Utils', 'Notification', function SettingsCtrl($scope, Utils, Notification) {
     $scope.timeFormats =
         [
             { name: '24-hour (14:00)',
@@ -39,4 +39,5 @@ angular.module(
     }
     updateNotificationsStatus();
 
-});
+}
+]);
