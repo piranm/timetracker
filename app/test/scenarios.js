@@ -86,9 +86,17 @@ describe('Time Tracker app', function() {
 			element('.optButtonsList li:nth-of-type(2)').click();
 		});
 
-		it('defaults', function () {
+		it('defaults are correct, and get saved', function () {
 			expect(element(".exportTab input[type='radio'][name='exportWhat']:checked").attr('value')).toBe('tasks');
 			expect(element(".exportTab input[type='radio'][name='exportFormat']:checked").attr('value')).toBe('csv');
+
+			element(".exportTab input[type='radio'][name='exportWhat'][value='days']").click();
+			element(".exportTab input[type='radio'][name='exportFormat'][value='excel']").click();
+
+			browser().navigateTo('../index.html#?debugToday=08012013');
+			element('.optButtonsList li:nth-of-type(2)').click();
+			expect(element(".exportTab input[type='radio'][name='exportWhat']:checked").attr('value')).toBe('days');
+			expect(element(".exportTab input[type='radio'][name='exportFormat']:checked").attr('value')).toBe('excel');
 		});
 
 		it('test task csv export', function () {
