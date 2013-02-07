@@ -36,15 +36,13 @@ To run the e2e (End-To-End) tests, go to: http://localhost:3501/test/runner.html
 
 ## References
 
-http://localhost:8000/app/timetrack.html
-
-http://localhost:8000/test/e2e/runner.html
-
-http://localhost:8000/README.md
-
-https://trello.com/board/timetracker-dev/5108e6bea3c834f22500d6ba
-
 https://github.com/piranm/timetracker
+
+http://localhost:3501/
+
+http://localhost:3501/test/runner.html
+
+https://trello.com/b/EpTF1Zgi
 
 http://docs.angularjs.org/api
 
