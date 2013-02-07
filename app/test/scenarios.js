@@ -56,16 +56,57 @@ describe('Time Tracker app', function() {
 
 	});
 
-	describe('settings', function() {
+	describe('export', function() {
 		beforeEach(function() {
 			browser().navigateTo('../index.html#?debugToday=08012013');
 			element('#debugClearStorage').click();
 			browser().navigateTo('../index.html#?debugToday=08012013');
+
+			element('#day_20130108 .marktable tbody tr:nth-of-type(1) input').val("day 8 task 1");
+			element('#day_20130108 .marktable tbody tr:nth-of-type(1) td:nth-of-type(2)').click();
+			element('#day_20130108 .marktable tbody tr:nth-of-type(1) td:nth-of-type(3)').click();
+			element('#day_20130108 .marktable tbody tr:nth-of-type(1) td:nth-of-type(3)').click();
+
+			element('#day_20130108 .addTask').click();
+			element('#day_20130108 .marktable tbody tr:nth-of-type(2) input').val("day 8 task 2");
+			element('#day_20130108 .marktable tbody tr:nth-of-type(2) td:nth-of-type(3)').click();
+			element('#day_20130108 .marktable tbody tr:nth-of-type(2) td:nth-of-type(3)').click();
+			element('#day_20130108 .marktable tbody tr:nth-of-type(2) td:nth-of-type(4)').click();
+
+			input('debugDay').enter("09");
+			element('#debugTick').click();
+			element('#day_20130109 .marktable tbody tr:nth-of-type(1) input').val("day 9 task 1");
+			element('#day_20130109 .marktable tbody tr:nth-of-type(1) td:nth-of-type(2)').click();
+
+			input('debugDay').enter("11");
+			element('#debugTick').click();
+			element('#day_20130111 .marktable tbody tr:nth-of-type(1) input').val("day 11 task 1");
+			element('#day_20130111 .marktable tbody tr:nth-of-type(1) td:nth-of-type(2)').click();
+
+			element('.optButtonsList li:nth-of-type(2)').click();
+		});
+
+		it('defaults', function () {
+			expect(element(".exportTab input[type='radio'][name='exportWhat']:checked").attr('value')).toBe('tasks');
+			expect(element(".exportTab input[type='radio'][name='exportFormat']:checked").attr('value')).toBe('csv');
 		});
 
 		it('test task csv export', function () {
-			sleep(5);
-			
+			element(".exportTab input[type='radio'][name='exportWhat'][value='tasks']").click();
+			element(".exportTab input[type='radio'][name='exportFormat'][value='csv']").click();
+			element('#debugExport').click();
+			expect(element('#debugExportFilename').text()).toBe('timetracker.csv');
+			expect(element('#debugExportMimeType').text()).toBe('text/csv');
+			expect(element('#debugExportData').val()).toBe("\"date\",\"task\",\"hours\",\"start\"\n\"07-01-2013\",\"\",0\n\"08-01-2013\",\"\",0.75\n\"08-01-2013\",\"\",0.75\n\"09-01-2013\",\"\",0.5\n\"10-01-2013\",\"\",0\n\"11-01-2013\",\"\",0.5\n\"12-01-2013\",\"\",0\n\"13-01-2013\",\"\",0\n");
+		});
+
+		it('test days csv export', function () {
+			element(".exportTab input[type='radio'][name='exportWhat'][value='days']").click();
+			element(".exportTab input[type='radio'][name='exportFormat'][value='csv']").click();
+			element('#debugExport').click();
+			expect(element('#debugExportFilename').text()).toBe('timetracker.csv');
+			expect(element('#debugExportMimeType').text()).toBe('text/csv');
+			expect(element('#debugExportData').val()).toBe("\"date\",\"comment\",\"hours\"\n\"07-01-2013\",\"\",0\n\"08-01-2013\",\"\",1.5\n\"09-01-2013\",\"\",0.5\n\"10-01-2013\",\"\",0\n\"11-01-2013\",\"\",0.5\n\"12-01-2013\",\"\",0\n\"13-01-2013\",\"\",0\n");
 		});
 	});
 

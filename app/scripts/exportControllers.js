@@ -8,24 +8,45 @@ angular.module(
 ).controller('ExportCtrl', function AppCtrl($scope,Utils,Storage,TableExport) {
 
     function createCSV() {
-        var tableExporter = TableExport.csvExporter();
+        var tasksExporter, daysExporter;
+        if ($scope.settings.exportWhat === 'tasks') {
+            tasksExporter = TableExport.csvExporter();
+            tasksExporter.addColumns("date","task","hours","start");
+        }
+        if ($scope.settings.exportWhat === 'days') {
+            daysExporter = TableExport.csvExporter();
+            daysExporter.addColumns("date","comment","hours");
+        }
 
-        tableExporter.addColumns("date","task","hours","start");
+
         Storage.forAllDaysInOrder(
             function (date,day) {
-                angular.forEach(day.tasks,
-                    function (task) {
-                        var markTotal = 0;
-                        angular.forEach(task.marks, function (v) {
-                            markTotal += v;
-                        });
-                        tableExporter.addRow(date.format("dd-MM-yyyy"),task.task,markTotal/4);
-                    }
-                );
+                var dateForCsv = date.format("dd-MM-yyyy");
+                if (tasksExporter) {
+                    angular.forEach(day.tasks,
+                        function (task) {
+                            var markTotal = 0;
+                            angular.forEach(task.marks, function (v) {
+                                markTotal += v;
+                            });
+                            tasksExporter.addRow(dateForCsv,task.task,markTotal/4);
+                        }
+                    );
+                }
+                if (daysExporter) {
+                    daysExporter.addRow(dateForCsv,day.comment,day.total);
+                }
             }
         );
 
-        return tableExporter.toString();
+        var out = '';
+        if (tasksExporter) {
+            out = out + tasksExporter.toString();
+        }
+        if (daysExporter) {
+            out = out + daysExporter.toString();
+        }
+        return out;
     }
 
     $scope.debugExport = function() {

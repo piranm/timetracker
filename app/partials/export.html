@@ -1,4 +1,4 @@
-<div ng-controller="ExportCtrl">
+<div ng-controller="ExportCtrl" class="exportTab">
 	<h2>What do you want to download?</h2>
 	<p>
 		<label><input type="radio" name="exportWhat" ng-model="settings.exportWhat" value="tasks" />Tasks</label>
@@ -18,16 +18,18 @@
 	</p>
 
 	<div ng-switch on="debug">
-		<h2>Debug</h2>
-		<button ng-click="debugExport()" id="debugExport">Debug Export</button>
-		<dl ng-switch-when="true">
-			<dt>debugExportFilename</dt>
-			<dd><span id="debugExportFilename">{{debugExport.filename}}</span></dd>
-			<dt>debugExportMimeType</dt>
-			<dd><span id="debugExportMimeType">{{debugExport.mimeType}}</span></dd>
-			<dt>debugExportData</dt>
-			<dd><textarea ng-model="debugExport.data" id="debugExportData"></textarea></dd>
-		</dl>
+		<div ng-switch-when="true">
+			<h2>Debug</h2>
+			<button ng-click="debugExport()" id="debugExport">Debug Export</button>
+			<dl>
+				<dt>debugExportFilename</dt>
+				<dd><span id="debugExportFilename">{{debugExport.filename}}</span></dd>
+				<dt>debugExportMimeType</dt>
+				<dd><span id="debugExportMimeType">{{debugExport.mimeType}}</span></dd>
+				<dt>debugExportData</dt>
+				<dd><textarea ng-model="debugExport.data" id="debugExportData"></textarea></dd>
+			</dl>
+		</div>
 	</div>
 
 </div>
