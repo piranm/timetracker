@@ -2,4 +2,8 @@
 
 /* App Module */
 
-angular.module('timetracker', ['AppControllers', 'trackFilters', 'SettingsControllers', 'DayControllers', 'DebugControllers']);
+angular.module('timetracker', 
+	[
+		'AppControllers', 'trackFilters', 'SettingsControllers', 'DayControllers', 'DebugControllers', 'ExportControllers'
+	]
+);

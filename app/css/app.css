@@ -171,7 +171,7 @@ a {
 p {
 	margin: 4px 0;
 }
-label {
+.settingsContainer label {
     white-space: nowrap;
     display: block;
     width: 100%;

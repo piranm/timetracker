@@ -16,7 +16,8 @@ angular.module(
         showEnd: 19,
         notificationEnabled: false,
         notificationFrequency: 30,
-        notificationWorkHoursOnly: false
+        notificationWorkHoursOnly: false,
+        exportWhat: 'tasks'
     };
     angular.extend($scope.settings, Storage.getSettings());
 
