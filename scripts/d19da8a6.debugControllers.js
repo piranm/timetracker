@@ -5,7 +5,7 @@
 
 angular.module(
     'DebugControllers', ['Storage','Utils']
-).controller('DebugCtrl', function DebugCtrl($scope, Storage) {
+).controller('DebugCtrl', ['$scope', 'Storage', function DebugCtrl($scope, Storage) {
     $scope.debugDay    = $scope.today.format("dd");
     $scope.debugMonth  = $scope.today.format("MM");
     $scope.debugYear   = $scope.today.format("yyyy");
@@ -20,4 +20,4 @@ angular.module(
         Storage.clear();
     };
 }
-);
+]);

@@ -5,7 +5,7 @@
 
 angular.module(
     'ExportControllers', ['Utils','Storage','Notification','TableExport']
-).controller('ExportCtrl', function AppCtrl($scope,Utils,Storage,TableExport) {
+).controller('ExportCtrl', ['$scope','Utils','Storage','TableExport', function AppCtrl($scope,Utils,Storage,TableExport) {
 
     function createCSV() {
         var tasksExporter, daysExporter, weeksExporter;
@@ -129,7 +129,7 @@ angular.module(
 */
 }
 
-).directive('downloadDataAsFile', function DownloadDataAsFile() {
+]).directive('downloadDataAsFile', function DownloadDataAsFile() {
     // There's a bug on FireFox for Mac for this (adds a '.part' to filename):
     // https://bugzilla.mozilla.org/show_bug.cgi?id=622400
     return function(scope, element, attrs) {

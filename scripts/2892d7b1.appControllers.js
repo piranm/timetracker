@@ -5,7 +5,7 @@
 
 angular.module(
     'AppControllers', ['Utils','Storage','Notification']
-).controller('AppCtrl', function AppCtrl($scope,Utils,Storage,$timeout,Notification,$location) {
+).controller('AppCtrl', ['$scope','Utils','Storage','$timeout','Notification','$location', function AppCtrl($scope,Utils,Storage,$timeout,Notification,$location) {
 
     $scope.settings = {
         name: 'Time Tracker',
@@ -171,7 +171,7 @@ angular.module(
     $scope.halfHourAction = halfHourAction;
     
 
-}).controller('TopNavCtrl', function TopNavCtrl($scope) {
+}]).controller('TopNavCtrl', ['$scope', function TopNavCtrl($scope) {
     $scope.showInDropdown = '';
     $scope.showDropdown = function(item, $event) {
         if (item === $scope.showInDropdown) {
@@ -182,8 +182,35 @@ angular.module(
         $event.stopPropagation();
     };
 
+    $scope.$watch('showInDropdown', function () {
+        $scope.$broadcast('resize');
+    } );
 
-}).controller('WeekCtrl', function WeekCtrl($scope, Utils) {
+}]).directive('trackWindowSize', ['$window', '$timeout', function WeekCtrl($window, $timeout) {
+
+    return function(scope, iElement, iAttrs) {
+        var inner = angular.element(iElement.find('div')[0]);
+        var resizeFunc = function (evt) {
+            iElement.css('height', Math.min($window.innerHeight - iElement[0].offsetTop*2 - 100,inner[0].clientHeight+iElement[0].offsetTop*2+10)+'px');
+        };
+        var resizeWindowBind = angular.element($window).bind('resize', resizeFunc);
+        scope.$on('$destroy',function () {
+            angular.element($window).unbind(resizeWindowBind);
+        } );
+        var resizeInnerBind = inner.bind('resize', resizeFunc);
+        scope.$on('$destroy',function () {
+            inner.unbind(resizeInnerBind);
+        } );
+        scope.$on('resize', function () {
+            $timeout( resizeFunc, 10 );
+        } );
+        scope.$on('$includeContentLoaded', function () {
+            $timeout( resizeFunc, 10 );
+        } );
+    };
+
+
+}]).controller('WeekCtrl', ['$scope', 'Utils', function WeekCtrl($scope, Utils) {
     $scope.days = [];
     for (var d = 0 ; d < 7 ; d++) {
         var dayDate = $scope.startOfWeek.addDays(d);
@@ -191,4 +218,4 @@ angular.module(
     }
     $scope.endOfWeek = $scope.days[$scope.days.length-1].dayDate;
     $scope.weekNumber = $scope.startOfWeek.weekNumber();
-});
+}]);

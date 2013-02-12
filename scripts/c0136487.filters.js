@@ -28,7 +28,7 @@ angular.module('trackFilters', []).
     };
   }
 ).filter('mark',function() {
-    var marks = ['','\u25D0','\u25C9'],
+    var marks = ['','\u25D0','\u25C9','\u25C8'],
         maxMarks = marks.length-1;
     return function(input) {
       return marks[ Math.min(input,maxMarks) ];
