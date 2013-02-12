@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Generated: Tue Feb 12 2013 11:52:37 GMT+0000 (GMT)
+# Generated: Tue Feb 12 2013 12:03:48 GMT+0000 (GMT)
 
 CACHE:
 index.html
@@ -8,6 +8,7 @@ img/example_controls.png
 img/example_day.png
 img/example_notification.png
 img/favicon.png
+styles/0ba03c26.main.css
 partials/day-editor.html
 partials/debug.html
 partials/export.html
