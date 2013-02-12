@@ -29,8 +29,8 @@ describe('filter', function() {
 			expect(markFilter(0)).toBe('');
 			expect(markFilter(1)).toBe('\u25D0');
 			expect(markFilter(2)).toBe('\u25C9');
-			expect(markFilter(3)).toBe('\u25C9');
-			expect(markFilter(3)).toBe('\u25C9');
+			expect(markFilter(3)).toBe('\u25C8');
+			expect(markFilter(4)).toBe('\u25C8');
 		}));
 	} );
 	

@@ -1,5 +1,3 @@
-/* app css stylesheet */
-
 body {
 	padding-top: 20px;
 	background-color: #404853;
@@ -102,11 +100,26 @@ a {
 
 /** Dropdown box **/
 
+.background-hider {
+    position:fixed;
+    z-index: -1;
+    top:  0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+
+    background-color: #404853;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    -moz-opacity:0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
+}
+
 .dropdown-menu.open {
 	display: block;
 }
 .dropdown-menu {
-    height: 30em;
     max-width: 60em;
     position: absolute;
     top: 100%;
@@ -152,8 +165,13 @@ a {
 	/*border: 1px solid white;*/
 	margin-bottom: 1.5em
 }
+
+h2,
 .title {
-	font-size: x-large;
+    font-size: 1.5em;
+    font-weight: normal;
+}
+.title {
 	border-bottom: 1px solid white;
 }
 .entry {
@@ -170,6 +188,7 @@ a {
 }
 p {
 	margin: 4px 0;
+    line-height: 1.3em;
 }
 .settingsContainer label {
     white-space: nowrap;
@@ -216,7 +235,7 @@ td.markcell, td.summarycell {
 	color: #40f000;
 }
 .overflow { 
-	color: #f00000;
+	color: #ff0000;
 }
 
 .hourFloat {

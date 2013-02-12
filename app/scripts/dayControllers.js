@@ -53,7 +53,7 @@ angular.module(
     }
 
     $scope.hourStart = Math.min($scope.settings.showStart, firstHourWorked($scope.day));
-    $scope.hourEnd   = Math.max($scope.settings.showEnd,   lastHourWorked($scope.day));
+    $scope.hourEnd   = Math.max($scope.settings.showEnd-1,   lastHourWorked($scope.day));
 
 
     function makeShowRange() {

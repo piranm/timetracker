@@ -80,7 +80,7 @@ describe('dayControllers', function() {
 
     describe('should track the showRange and hours', function () {
       it('work in normal conditions', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
           ]
@@ -101,7 +101,7 @@ describe('dayControllers', function() {
         expect(scope.showRange).toEqual([14,15,16,17,18,19,20,21,22,23]);
       });
       it('be limited', function () {
-        scope.settings = {showStart: 0, showEnd: 23};
+        scope.settings = {showStart: 0, showEnd: 24};
         scope.day = {
           tasks: [
           ]
@@ -125,7 +125,7 @@ describe('dayControllers', function() {
 
     describe('should find start and end days', function () {
       it('use settings if no tasks', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
           ]
@@ -134,8 +134,8 @@ describe('dayControllers', function() {
         expect(scope.hourStart).toBe(8);
         expect(scope.hourEnd).toBe(10);
       });
-      it('use settings if time encompasses task marks', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+      it('should use settings if time encompasses task marks', function () {
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
             makeTask('one').set(9,1)
@@ -145,7 +145,7 @@ describe('dayControllers', function() {
         expect(scope.hourStart).toBe(8);
         expect(scope.hourEnd).toBe(10);
       });
-      it('ignore settings if time inside task marks', function () {
+      it('should ignore settings if time inside task marks', function () {
         scope.settings = {showStart: 8, showEnd: 10};
         scope.day = {
           tasks: [
@@ -157,7 +157,7 @@ describe('dayControllers', function() {
         expect(scope.hourEnd).toBe(11);
       });
       it('use min and max of all tasks', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
             makeTask('one').set(7,1).set(11,1),
@@ -170,7 +170,7 @@ describe('dayControllers', function() {
         expect(scope.hourEnd).toBe(13);
       });
       it('half hours should round correctly', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
             makeTask('one').set(5.5,1).set(13.5,1)
@@ -184,7 +184,7 @@ describe('dayControllers', function() {
 
     describe('should calculate summary', function () {
       it('be all zeros for no tasks or empty tasks', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
           ]
@@ -201,7 +201,7 @@ describe('dayControllers', function() {
         expect(scope.day.total).toEqual(0);
       });
       it('to sum up tasks', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
             makeTask('one').set(0,1).set(0.5,2),
@@ -214,7 +214,7 @@ describe('dayControllers', function() {
         expect(scope.day.total).toEqual(1.5);
       });
       it('to change when mark changed', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
             makeTask('one').set(0,1).set(0.5,2)
@@ -231,7 +231,7 @@ describe('dayControllers', function() {
         expect(scope.day.total).toEqual(0.5);
       });
       it('to change if tasks removed', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
             makeTask('one').set(0,1).set(0.5,2),
@@ -252,7 +252,7 @@ describe('dayControllers', function() {
 
     describe('make tasks', function () {
       it('should add tasks', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
             makeTask('one').set(0,1).set(0.5,2)
@@ -266,7 +266,7 @@ describe('dayControllers', function() {
         expect(scope.day.tasks[1].marks).toEqual(repeat(48,0));
       });
       it('should delete tasks', function () {
-        scope.settings = {showStart: 8, showEnd: 10};
+        scope.settings = {showStart: 8, showEnd: 11};
         scope.day = {
           tasks: [
             makeTask('one').set(0,1).set(0.5,2),
