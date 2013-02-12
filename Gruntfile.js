@@ -163,7 +163,54 @@ module.exports = function( grunt ) {
       optimize: 'none',
       baseUrl: './scripts',
       wrap: true
+    },
+
+    // For use with my custom manifest stuff below:
+    myManifest: {
+      name: 'manifest.appcache',
+      cache: [
+        'index.html',
+        'favicon.ico',
+        'img/*',
+        'styles/*.main.css',
+        'partials/*',
+        'scripts/*.scripts.js',
+        'scripts/vendor/*.angular.min.js',
+        'scripts/vendor/*.json3.min.js',
+        'scripts/vendor/*.es5-shim.min.js'
+      ]
     }
+  });
+
+  grunt.registerTask('manifest', 'compass.js manifest override', function () {
+    this.requiresConfig('myManifest');
+
+    grunt.log.writeln('!!! task manifest is now mine!!!');
+
+    grunt.verbose.writeln('collect file list');
+    var cacheFiles = grunt.file.expand( grunt.config.get('myManifest').cache );
+
+    grunt.verbose.writeln('generate manifest content');
+    var EOL = '\x0A';// not "\r\n" -- See http://stackoverflow.com/a/6956535/1402988
+    var content = "CACHE MANIFEST" + EOL;
+    content += "# Generated: "+new Date()+EOL;
+    content += EOL;
+    content += "CACHE:"+EOL;
+    cacheFiles.forEach( function (fname) { content += fname+EOL; } );
+    content += EOL;
+    content += "NETWORK:"+EOL;
+    content += EOL;
+    content += "FALLBACK:"+EOL;
+    content += '/ index.html'+EOL;
+    grunt.verbose.writeln(content);
+
+    grunt.verbose.writeln('write manifest content');
+    grunt.file.write(grunt.config.get('myManifest').name, content);
+
+    grunt.verbose.writeln('update index.html file');
+    var indexHtml = grunt.file.read('index.html');
+    indexHtml = indexHtml.replace(/<html ?/g,'<html manifest="'+grunt.config.get('myManifest').name+'" ');
+    grunt.file.write('index.html',indexHtml);
   });
 
   // Alias the `test` task to run `testacular` instead
